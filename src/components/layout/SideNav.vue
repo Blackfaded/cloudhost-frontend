@@ -4,11 +4,11 @@
       <li v-for="(link, index) in links" :key="index">
         <a :href="link.to" v-if="isLinkExternal(link)" target="_blank">
           <font-awesome-icon :icon="[link.icon.prefix, link.icon.name]" />
-          <span class="listText" :class="{ collapsed: collapsed }"> {{ link.name }}</span>
+          <span class="listText" :class="{ collapsed: collapsed }">{{ link.name }}</span>
         </a>
         <router-link v-else :to="link.to" :class="{ disabled: checkDisabled(link) }">
           <font-awesome-icon :icon="[link.icon.prefix, link.icon.name]" />
-          <span class="listText" :class="{ collapsed: collapsed }"> {{ link.name }}</span>
+          <span class="listText" :class="{ collapsed: collapsed }">{{ link.name }}</span>
         </router-link>
       </li>
     </ul>
@@ -74,6 +74,7 @@ export default {
   box-shadow: 5px 10px 24px 2px rgba(0, 0, 0, 0.75);
   transition: all 0.3s ease;
   overflow: hidden;
+
   &.collapsed {
     max-width: 65px;
   }
@@ -91,8 +92,9 @@ export default {
         color: inherit;
       }
       .listText {
+        margin-left: 5px;
         max-width: 200px;
-        transition: all 0.5s ease;
+        transition: all 0.3s ease;
         &.collapsed {
           max-width: 0;
           overflow: hidden;
@@ -103,6 +105,15 @@ export default {
   }
   .disabled {
     pointer-events: none;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .sidenav {
+    transition: all 1s ease;
+    &.collapsed {
+      transform: translateX(-200px);
+    }
   }
 }
 </style>

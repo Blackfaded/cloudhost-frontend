@@ -8,8 +8,11 @@ import {
   faListUl,
   faDatabase,
   faQuestionCircle,
-  faTachometerAlt
+  faTachometerAlt,
+  faCogs,
+  faTimes
 } from '@fortawesome/free-solid-svg-icons';
+
 import { faNodeJs, faGitlab } from '@fortawesome/free-brands-svg-icons';
 
 library.add([
@@ -23,5 +26,7 @@ library.add([
   faGitlab,
   faDatabase,
   faQuestionCircle,
-  faTachometerAlt
+  faTachometerAlt,
+  faCogs,
+  faTimes
 ]);

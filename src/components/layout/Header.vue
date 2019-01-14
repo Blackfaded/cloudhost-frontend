@@ -1,20 +1,36 @@
 <template>
-  <div class="header">
-    <router-link to="/dashboard" class="logo" :class="{ collapsed: collapsed }">
-      <transition name="fade" mode="out-in">
-        <span v-if="!collapsed" key="full"> Cloudhost </span> <span v-else key="short"> CH </span>
-      </transition>
-    </router-link>
-    <button class="toggleSideNav" @click="toggleSideNav">
-      <font-awesome-icon v-if="collapsed" icon="list-ul" />
-      <font-awesome-icon v-else icon="ellipsis-v" />
-    </button>
-    <span class="space"></span>
-    <button class="profile">
-      <font-awesome-icon icon="envelope" />
-      <span>René Heinen</span>
-      <font-awesome-icon icon="chevron-down" />
-    </button>
+  <div>
+    <div class="header d-none d-md-flex">
+      <router-link to="/dashboard" class="logo" :class="{ collapsed: collapsed }">
+        <transition name="fade" mode="out-in">
+          <span v-if="!collapsed" key="full">Cloudhost</span> <span v-else key="short">CH</span>
+        </transition>
+      </router-link>
+      <button class="toggleSideNav" @click="toggleSideNav">
+        <font-awesome-icon v-if="collapsed" icon="list-ul" />
+        <font-awesome-icon v-else icon="ellipsis-v" />
+      </button>
+      <span class="space"></span>
+      <button class="profile">
+        <font-awesome-icon icon="cogs" />
+        <span>René Heinen</span>
+        <font-awesome-icon icon="chevron-down" />
+      </button>
+    </div>
+    <div class="header d-md-none">
+      <button class="toggleSideNav" @click="toggleSideNav">
+        <font-awesome-icon v-if="collapsed" icon="bars" />
+        <font-awesome-icon v-else icon="times" />
+      </button>
+      <router-link to="/dashboard" class="logo"> <span>Cloudhost</span> </router-link>
+
+      <span class="space"></span>
+      <button class="profile">
+        <font-awesome-icon icon="cogs" />
+        <span>René Heinen</span>
+        <font-awesome-icon icon="chevron-down" />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -78,7 +94,8 @@ export default {
     border-left: #000;
     height: 100%;
     margin: 0 10px;
-
+    display: flex;
+    align-items: center;
     span {
       margin: 0 10px;
     }

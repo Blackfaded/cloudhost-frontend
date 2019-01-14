@@ -19,8 +19,8 @@
             <b-input-group-append is-text> <font-awesome-icon icon="lock" /> </b-input-group-append>
           </b-input-group>
           <div class="footer">
-            <b-form-checkbox id="checkbox1" v-model="remember"> Remember me </b-form-checkbox>
-            <b-button variant="primary" @click="login"> Login </b-button>
+            <b-form-checkbox id="checkbox1" v-model="remember">Remember me</b-form-checkbox>
+            <b-button variant="primary" @click="login">Login</b-button>
           </div>
         </div>
       </b-col>
