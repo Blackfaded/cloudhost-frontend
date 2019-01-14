@@ -7,10 +7,10 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "docker:start": "docker-compose -f docker-compose.prod.yml up",
+    "docker:prod": "docker-compose -f docker-compose.prod.yml up",
     "docker:dev": "docker-compose -f docker-compose.dev.yml up",
-    "docker:rebuild:dev": "docker-compose -f docker-compose.dev.yml build",
-    "docker:rebuild:prod": "docker-compose -f docker-compose.prod.yml build"
+    "docker:rebuild:dev": "docker-compose -f docker-compose.dev.yml build --no-cache --force-rm",
+    "docker:rebuild:prod": "docker-compose -f docker-compose.prod.yml build --no-cache --force-rm"
   },
   "lint-staged": {
     "src/**/*.{js,vue}": [
@@ -25,6 +25,12 @@
     }
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.12",
+    "@fortawesome/free-brands-svg-icons": "^5.6.3",
+    "@fortawesome/free-regular-svg-icons": "^5.6.3",
+    "@fortawesome/free-solid-svg-icons": "^5.6.3",
+    "@fortawesome/vue-fontawesome": "^0.1.5",
+    "bootstrap-vue": "^2.0.0-rc.11",
     "vue": "^2.5.21",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
