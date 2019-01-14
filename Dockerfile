@@ -1,7 +1,9 @@
-FROM node:10 as build
+FROM node:10 as modules
 WORKDIR /usr/app/frontend
 COPY package*.json ./
 RUN npm i
+
+FROM modules as build
 COPY . .
 RUN npm run build
 

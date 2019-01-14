@@ -1,9 +1,9 @@
-version: '2'
+version: '3.4'
 services:
   frontend:
     build:
       context: .
-      dockerfile: dev.dockerfile
+      target: modules
     image: cloudhost/frontend_development:latest
     command: npm run serve
     volumes:
