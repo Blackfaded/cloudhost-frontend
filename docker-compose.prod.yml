@@ -1,0 +1,7 @@
+version: '2'
+services:
+  frontend:
+    build: .
+    image: cloudhost/frontend_production:latest
+    ports:
+      - '8080:80'

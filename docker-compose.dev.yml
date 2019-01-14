@@ -1,0 +1,17 @@
+version: '2'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: dev.dockerfile
+    image: cloudhost/frontend_development:latest
+    command: npm run serve
+    volumes:
+      - .:/usr/app/frontend/
+      - /usr/app/frontend/node_modules
+    ports:
+      - "8080:8080"
+    stdin_open: true
+    tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
