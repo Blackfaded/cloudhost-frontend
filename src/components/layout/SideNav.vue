@@ -50,6 +50,11 @@ export default {
           name: 'Help',
           to: '/help',
           icon: { prefix: 'fas', name: 'question-circle' }
+        },
+        {
+          name: 'Users',
+          to: '/admin/users',
+          icon: { prefix: 'fas', name: 'question-circle' }
         }
       ]
     };
@@ -68,7 +73,6 @@ export default {
 <style lang="scss" scoped>
 .sidenav {
   width: 200px;
-  height: 100%;
   max-width: 200px;
   background-color: rgb(29, 29, 29);
   box-shadow: 5px 10px 24px 2px rgba(0, 0, 0, 0.75);
@@ -110,9 +114,12 @@ export default {
 
 @media screen and (max-width: 576px) {
   .sidenav {
-    transition: all 1s ease;
+    transition: all 0.3s;
+    max-width: 200px;
     &.collapsed {
       transform: translateX(-200px);
+      max-width: 0;
+      opacity: 0;
     }
   }
 }

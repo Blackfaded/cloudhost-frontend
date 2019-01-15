@@ -52,6 +52,7 @@ export default {
 
 <style lang="scss" scoped>
 .header {
+  z-index: 10;
   width: 100%;
   height: 60px;
   background-color: rgb(29, 29, 29);
