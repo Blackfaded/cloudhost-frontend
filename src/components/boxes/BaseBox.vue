@@ -2,14 +2,23 @@
   <div class="box">
     <slot name="header"></slot>
 
-    <div class="boxBody"><slot name="body"></slot></div>
+    <div class="boxBody" :style="style"><slot name="body"></slot></div>
 
     <slot name="footer"></slot>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    style() {
+      return {
+        'border-bottom': this.$slots.footer ? '1px solid rgb(202, 202, 202)' : '',
+        'border-top': this.$slots.header ? '1px solid rgb(202, 202, 202)' : ''
+      };
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -25,8 +34,6 @@ export default {};
   &Body {
     max-height: 500px;
     overflow-y: auto;
-    border-top: 1px solid rgb(202, 202, 202);
-    border-bottom: 1px solid rgb(202, 202, 202);
   }
 }
 </style>

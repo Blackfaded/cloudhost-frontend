@@ -1,10 +1,9 @@
 <template>
-  <b-container class="dashboardContainer">
+  <b-container fluid class="dashboardContainer">
     <b-row>
-      <b-col sm="4"> <div class="test">User Data 1</div> </b-col>
-      <b-col sm="4"> <div class="test">User Data 2</div> </b-col>
-      <b-col sm="4"> <div class="test">User Data 3</div> </b-col>
-      <b-col sm="4"> <div class="test">User Data 4</div> </b-col>
+      <b-col cols="12">
+        <div class="test"><h1>Herzlich Wollkommen im Cloudhost</h1></div>
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -20,9 +19,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.test {
-  background-color: #fff;
-  height: 100px;
-  color: black;
+.dashboardContainer {
+  .test {
+    background-color: #fff;
+    padding: 30px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h1 {
+      text-align: center;
+    }
+  }
 }
 </style>

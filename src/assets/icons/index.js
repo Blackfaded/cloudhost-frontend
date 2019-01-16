@@ -10,7 +10,10 @@ import {
   faQuestionCircle,
   faTachometerAlt,
   faCogs,
-  faTimes
+  faTimes,
+  faCheckCircle,
+  faTimesCircle,
+  faUser
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faNodeJs, faGitlab } from '@fortawesome/free-brands-svg-icons';
@@ -28,5 +31,8 @@ library.add([
   faQuestionCircle,
   faTachometerAlt,
   faCogs,
-  faTimes
+  faTimes,
+  faCheckCircle,
+  faTimesCircle,
+  faUser
 ]);

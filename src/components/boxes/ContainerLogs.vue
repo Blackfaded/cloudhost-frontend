@@ -3,7 +3,7 @@
     <h3 slot="header">Container Logs</h3>
 
     <div slot="body">
-      <pre v-highlightjs="logs"><code class="javascript"></code></pre>
+      <pre v-highlightjs="logs"><code class="shell-session"></code></pre>
     </div>
   </base-box>
 </template>

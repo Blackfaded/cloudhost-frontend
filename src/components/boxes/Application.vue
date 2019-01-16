@@ -60,13 +60,6 @@ export default {
 
 <style lang="scss" scoped>
 .applicationBox {
-  color: #000;
-  margin: 10px 0;
-  background-color: #fff;
-  box-shadow: 10px 11px 59px 0px rgba(0, 0, 0, 0.75);
-  & > * {
-    padding: 15px;
-  }
   .header {
     display: flex;
     align-items: center;

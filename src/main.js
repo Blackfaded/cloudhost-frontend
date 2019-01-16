@@ -8,6 +8,7 @@ import './assets/icons';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import clickOutside from './directives/clickOutside';
 
 // Tell Vue.js to use vue-highlightjs
 Vue.use(VueHighlightJS);
@@ -15,6 +16,8 @@ Vue.use(VueHighlightJS);
 Vue.use(BootstrapVue);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+
+Vue.directive('click-outside', clickOutside);
 
 Vue.config.productionTip = false;
 

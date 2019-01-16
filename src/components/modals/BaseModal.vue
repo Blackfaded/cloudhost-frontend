@@ -44,15 +44,4 @@ export default {
     width: 500px;
   }
 }
-
-.modal-fade-enter,
-.modal-fade-leave-active {
-  opacity: 0;
-  transform: scale(1.5);
-}
-
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-  transition: all 0.3s ease;
-}
 </style>

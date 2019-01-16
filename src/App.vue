@@ -22,15 +22,13 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/hightlight.scss';
-
 #app {
-  position: relative;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #292a2c;
   color: #fff;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 </style>

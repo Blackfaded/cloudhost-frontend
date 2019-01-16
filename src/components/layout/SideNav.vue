@@ -11,6 +11,13 @@
           <span class="listText" :class="{ collapsed: collapsed }">{{ link.name }}</span>
         </router-link>
       </li>
+      <li class="administration"><span v-if="!collapsed">Administration</span></li>
+      <li v-for="(link, index) in adminLinks" :key="index">
+        <router-link :to="link.to" :class="{ disabled: checkDisabled(link) }">
+          <font-awesome-icon :icon="[link.icon.prefix, link.icon.name]" />
+          <span class="listText" :class="{ collapsed: collapsed }">{{ link.name }}</span>
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
@@ -50,11 +57,13 @@ export default {
           name: 'Help',
           to: '/help',
           icon: { prefix: 'fas', name: 'question-circle' }
-        },
+        }
+      ],
+      adminLinks: [
         {
           name: 'Users',
           to: '/admin/users',
-          icon: { prefix: 'fas', name: 'question-circle' }
+          icon: { prefix: 'fas', name: 'user' }
         }
       ]
     };
@@ -72,6 +81,7 @@ export default {
 
 <style lang="scss" scoped>
 .sidenav {
+  z-index: 1;
   width: 200px;
   max-width: 200px;
   background-color: rgb(29, 29, 29);
@@ -92,11 +102,15 @@ export default {
       white-space: nowrap;
       display: flex;
       align-items: center;
+      &.administration {
+        background-color: rgb(15, 15, 15);
+        height: 30px;
+      }
       a {
         color: inherit;
       }
       .listText {
-        margin-left: 5px;
+        margin-left: 10px;
         max-width: 200px;
         transition: all 0.3s ease;
         &.collapsed {

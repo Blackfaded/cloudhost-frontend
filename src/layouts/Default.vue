@@ -4,7 +4,8 @@
     <div class="body">
       <side-nav :collapsed="isSidenavCollapsed"></side-nav>
       <div class="content">
-        <div class="contentContainer"><slot></slot></div>
+        <slot></slot>
+
         <transition name="fade">
           <div v-if="!isSidenavCollapsed" @click="toggleSideNav" class="mask d-none-md"></div>
         </transition>
@@ -73,13 +74,10 @@ export default {
         width: 100vw;
         overflow: hidden;
         overflow-x: auto;
-        &Container {
-          padding: 15px;
-          width: 100%;
-          height: 100%;
-        }
+        padding-top: 15px;
+
         .mask {
-          z-index: 1000;
+          z-index: 100;
           top: 0;
           left: 0;
           position: absolute;
@@ -91,14 +89,5 @@ export default {
       }
     }
   }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>

@@ -1,14 +1,14 @@
 <template>
-  <b-container>
+  <b-container fluid>
     <h2 class="headline">
       <span>Applications (2)</span>
       <b-button variant="success" @click="showCreateApplicationModal = true">+ New</b-button>
     </h2>
     <b-row>
-      <b-col sm="4"> <application-box></application-box> </b-col>
-      <b-col sm="4"> <application-box></application-box> </b-col>
-      <b-col sm="4"> <application-box></application-box> </b-col>
-      <b-col sm="4"> <application-box></application-box> </b-col>
+      <b-col md="6" lg="4"> <application-box></application-box> </b-col>
+      <b-col md="6" lg="4"> <application-box></application-box> </b-col>
+      <b-col md="6" lg="4"> <application-box></application-box> </b-col>
+      <b-col md="6" lg="4"> <application-box></application-box> </b-col>
     </b-row>
 
     <application-create-modal
