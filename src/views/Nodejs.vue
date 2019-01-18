@@ -1,9 +1,9 @@
 <template>
   <b-container fluid>
-    <h2 class="headline">
-      <span>Applications (2)</span>
-      <b-button variant="success" @click="showCreateApplicationModal = true">+ New</b-button>
-    </h2>
+    <div class="headline">
+      <h2>Applications (2)</h2>
+      <base-button variant="success" @click="showCreateApplicationModal = true">+ New</base-button>
+    </div>
     <b-row>
       <b-col md="6" lg="4"> <application-box></application-box> </b-col>
       <b-col md="6" lg="4"> <application-box></application-box> </b-col>
@@ -36,6 +36,11 @@ export default {
 
 <style lang="scss" scoped>
 .headline {
+  display: flex;
+  align-items: center;
+  h2 {
+    display: inline-block;
+  }
   button {
     margin-left: 20px;
   }

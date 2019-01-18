@@ -11,12 +11,14 @@
         <font-awesome-icon v-else icon="ellipsis-v" />
       </button>
       <span class="space"></span>
+
       <button class="profile" @click="toggleSettings">
         <font-awesome-icon icon="cogs" />
         <span>René Heinen</span>
-        <font-awesome-icon icon="chevron-down" />
+        <font-awesome-icon icon="chevron-down" class="dropdown" :class="{ active: settingsOpen }" />
       </button>
     </div>
+
     <div class="header d-md-none">
       <button class="toggleSideNav" @click="toggleSideNav">
         <font-awesome-icon v-if="collapsed" icon="bars" />
@@ -28,9 +30,10 @@
       <button class="profile" @click="toggleSettings">
         <font-awesome-icon icon="cogs" />
         <span>René Heinen</span>
-        <font-awesome-icon icon="chevron-down" />
+        <font-awesome-icon icon="chevron-down" class="dropdown" :class="{ active: settingsOpen }" />
       </button>
     </div>
+
     <transition name="fade-right">
       <user-settings-box
         v-click-outside="clickedOutside"
@@ -79,8 +82,9 @@ export default {
   position: relative;
   width: 100%;
   height: 60px;
-  background-color: rgb(29, 29, 29);
-  box-shadow: 5px 7px 24px 2px rgba(0, 0, 0, 0.75);
+  background-color: var(--dark-primary-color);
+  color: var(--text);
+  box-shadow: 5px 7px 24px 2px rgba(0, 0, 0, 0.1);
   .header {
     height: 100%;
     display: flex;
@@ -88,7 +92,7 @@ export default {
     align-items: center;
     button {
       background-color: transparent;
-      color: white;
+      color: var(--main-font-color);
       border: none;
       outline: none;
       &:hover {
@@ -125,6 +129,12 @@ export default {
       align-items: center;
       span {
         margin: 0 10px;
+      }
+      .dropdown {
+        transition: all 0.3s;
+        &.active {
+          transform: rotate(180deg);
+        }
       }
     }
   }

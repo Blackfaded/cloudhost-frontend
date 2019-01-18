@@ -32,12 +32,12 @@
         </tbody>
       </table>
     </div>
-    <div slot="footer"><b-button variant="primary">Update User</b-button></div>
+    <div slot="footer"><base-button variant="primary">Update User</base-button></div>
   </base-box>
 </template>
 
 <script>
-import BaseBox from './BaseBox';
+import BaseBox from '@/components/boxes/BaseBox';
 
 export default {
   components: {

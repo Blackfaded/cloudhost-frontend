@@ -1,5 +1,5 @@
 <template>
-  <base-box class="containerLogs">
+  <base-box class="containerLogs" :maxHeight="500">
     <h3 slot="header">Container Logs</h3>
 
     <div slot="body">

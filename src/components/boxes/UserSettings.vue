@@ -5,14 +5,16 @@
       <h5>René Heinen</h5>
     </div>
     <div slot="footer" class="footer">
-      <b-button @click="$router.push('/')" variant="primary">Logout</b-button>
+      <theme-switch></theme-switch>
+      <base-button @click="$router.push('/')" variant="primary">Logout</base-button>
     </div>
   </base-box>
 </template>
 
 <script>
-import BaseBox from './BaseBox';
 import PersonPlaceholder from '@/assets/img/person-placeholder.jpg';
+import BaseBox from './BaseBox';
+import ThemeSwitch from '@/components/switches/ThemeSwitch';
 
 export default {
   data() {
@@ -20,9 +22,9 @@ export default {
       PersonPlaceholder
     };
   },
-
   components: {
-    BaseBox
+    BaseBox,
+    ThemeSwitch
   }
 };
 </script>
@@ -47,7 +49,7 @@ export default {
   }
   .footer {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
   }
 }

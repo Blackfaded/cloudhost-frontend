@@ -3,20 +3,21 @@
 </template>
 <script>
 import DefaultLayout from '@/layouts/Default';
+import toggleTheme from '@/mixins/applyTheme';
 
 export default {
   components: {
     DefaultLayout
   },
+  mixins: [toggleTheme],
   computed: {
     layout() {
       const { layout } = this.$route.meta;
-      console.log({ layout });
       return layout === 'none' ? 'div' : `${layout}-layout`;
     }
   },
   mounted() {
-    console.log(this.$route.meta.layout);
+    this.applyTheme();
   }
 };
 </script>
@@ -26,8 +27,8 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #292a2c;
-  color: #fff;
+  background-color: var(--light-primary-color);
+  color: var(--primary-text);
   min-height: 100vh;
   overflow-x: hidden;
 }

@@ -1,5 +1,6 @@
 <template>
   <b-container class="loginContainer">
+    <theme-switch class="switch"></theme-switch>
     <b-row>
       <b-col cols="8" offset="2"> <h1 class="headline">Cloudhost</h1> </b-col>
     </b-row>
@@ -19,8 +20,7 @@
             <b-input-group-append is-text> <font-awesome-icon icon="lock" /> </b-input-group-append>
           </b-input-group>
           <div class="footer">
-            <b-form-checkbox id="checkbox1" v-model="remember">Remember me</b-form-checkbox>
-            <b-button variant="primary" @click="login">Login</b-button>
+            <base-button variant="primary" @click="login">Login</base-button>
           </div>
         </div>
       </b-col>
@@ -28,11 +28,11 @@
   </b-container>
 </template>
 <script>
+import ThemeSwitch from '@/components/switches/ThemeSwitch';
+
 export default {
-  data() {
-    return {
-      remember: false
-    };
+  components: {
+    ThemeSwitch
   },
   methods: {
     login() {
@@ -44,6 +44,11 @@ export default {
 
 <style lang="scss" scoped>
 .loginContainer {
+  .switch {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+  }
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -61,10 +66,13 @@ export default {
     }
     .input {
       margin: 15px 0;
+      .input-group-text {
+        width: 40px;
+      }
     }
     .footer {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
     }
   }

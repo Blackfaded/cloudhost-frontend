@@ -14,7 +14,7 @@
   </b-container>
 </template>
 <script>
-import UserEdit from '@/components/boxes/UserEdit';
+import UserEdit from '@/components/boxes/admin/UserEdit';
 import ApplicationBox from '@/components/boxes/Application';
 
 export default {

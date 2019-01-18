@@ -1,29 +1,15 @@
 <template>
   <b-container fluid class="usersContainer">
-    <h2 class="headline">Usermanagement</h2>
-    <b-table striped hover :items="testItems" :fields="fields">
-      <template slot="e-mail" slot-scope="data">
-        <router-link :to="`/admin/users/${data.item['e-mail']}`">{{
-          data.item['e-mail']
-        }}</router-link>
-      </template>
-      <template slot="admin" slot-scope="data">
-        <font-awesome-icon
-          :style="booleanIconStyle(data.item.admin)"
-          :icon="data.item.admin ? 'check-circle' : 'times-circle'"
-        />
-      </template>
-      <template slot="active" slot-scope="data">
-        <font-awesome-icon
-          :style="booleanIconStyle(data.item.active)"
-          :icon="data.item.active ? 'check-circle' : 'times-circle'"
-        />
-      </template>
-    </b-table>
+    <user-overview :items="testItems" :fields="fields"></user-overview>
   </b-container>
 </template>
 <script>
+import UserOverview from '@/components/boxes/admin/UserOverview';
+
 export default {
+  components: {
+    UserOverview
+  },
   data() {
     return {
       items: [
@@ -57,16 +43,6 @@ export default {
         admin: Math.floor(Math.random() * 2)
       }));
     }
-  },
-  methods: {
-    booleanIconStyle(bool) {
-      return {
-        color: bool ? 'green' : 'red'
-      };
-    }
-  },
-  mounted() {
-    console.log('users');
   }
 };
 </script>

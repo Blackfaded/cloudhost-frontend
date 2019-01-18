@@ -12,7 +12,7 @@
         </router-link>
       </li>
       <li class="administration"><span v-if="!collapsed">Administration</span></li>
-      <li v-for="(link, index) in adminLinks" :key="index">
+      <li v-for="(link, index) in adminLinks" :key="`${index}-admin`">
         <router-link :to="link.to" :class="{ disabled: checkDisabled(link) }">
           <font-awesome-icon :icon="[link.icon.prefix, link.icon.name]" />
           <span class="listText" :class="{ collapsed: collapsed }">{{ link.name }}</span>
@@ -84,8 +84,9 @@ export default {
   z-index: 1;
   width: 200px;
   max-width: 200px;
-  background-color: rgb(29, 29, 29);
-  box-shadow: 5px 10px 24px 2px rgba(0, 0, 0, 0.75);
+  background-color: var(--dark-primary-color);
+  color: var(--text);
+  box-shadow: 5px 10px 24px 2px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   overflow: hidden;
 
@@ -103,7 +104,7 @@ export default {
       display: flex;
       align-items: center;
       &.administration {
-        background-color: rgb(15, 15, 15);
+        background-color: var(--accent-color);
         height: 30px;
       }
       a {

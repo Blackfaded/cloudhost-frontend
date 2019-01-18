@@ -29,8 +29,8 @@
       <b-form-checkbox>Attach Mongo DB</b-form-checkbox>
     </div>
     <div slot="footer" class="footer">
-      <b-button>Cancel</b-button>
-      <b-button variant="primary">Create Application</b-button>
+      <base-button variant="danger" @click="close">Cancel</base-button>
+      <base-button variant="primary">Create Application</base-button>
     </div>
   </base-modal>
 </template>

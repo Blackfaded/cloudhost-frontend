@@ -13,7 +13,9 @@ import {
   faTimes,
   faCheckCircle,
   faTimesCircle,
-  faUser
+  faUser,
+  faSun,
+  faMoon
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faNodeJs, faGitlab } from '@fortawesome/free-brands-svg-icons';
@@ -34,5 +36,7 @@ library.add([
   faTimes,
   faCheckCircle,
   faTimesCircle,
-  faUser
+  faUser,
+  faSun,
+  faMoon
 ]);

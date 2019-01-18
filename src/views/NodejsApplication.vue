@@ -10,7 +10,7 @@
       <b-col cols="12">
         <base-box>
           <h3 slot="header">Danger Zone</h3>
-          <b-button variant="danger" slot="body">Delete Application</b-button>
+          <base-button variant="danger" slot="body">Delete Application</base-button>
         </base-box>
       </b-col>
     </b-row>
