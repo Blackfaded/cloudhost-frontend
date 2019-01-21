@@ -6,12 +6,13 @@
     </div>
     <div slot="footer" class="footer">
       <theme-switch></theme-switch>
-      <base-button @click="$router.push('/')" variant="primary">Logout</base-button>
+      <base-button @click="logout" variant="primary">Logout</base-button>
     </div>
   </base-box>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import PersonPlaceholder from '@/assets/img/person-placeholder.jpg';
 import BaseBox from './BaseBox';
 import ThemeSwitch from '@/components/switches/ThemeSwitch';
@@ -25,6 +26,13 @@ export default {
   components: {
     BaseBox,
     ThemeSwitch
+  },
+  methods: {
+    ...mapActions(['destroyToken']),
+    logout() {
+      this.destroyToken();
+      this.$router.push('/');
+    }
   }
 };
 </script>

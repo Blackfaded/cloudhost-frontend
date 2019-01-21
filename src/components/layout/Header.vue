@@ -3,7 +3,7 @@
     <div class="header d-none d-md-flex">
       <router-link to="/dashboard" class="logo" :class="{ collapsed: collapsed }">
         <transition name="fade-fast" mode="out-in">
-          <span v-if="!collapsed" key="full">Cloudhost</span> <span v-else key="short">CH</span>
+          <span v-if="!collapsed" key="full">CloudHost</span> <span v-else key="short">CH</span>
         </transition>
       </router-link>
       <button class="toggleSideNav" @click="toggleSideNav">

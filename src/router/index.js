@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Login from '../views/Login';
+import Auth from '../views/auth/Login';
+import Callback from '../views/auth/Callback';
 import Dashboard from '../views/Dashboard';
 import Nodejs from '../views/Nodejs';
 import NodejsApplication from '../views/NodejsApplication';
@@ -10,15 +11,24 @@ import AdminUserEdit from '../views/admin/UserEdit';
 Vue.use(Router);
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/auth'
     },
     {
-      path: '/login',
-      name: 'login',
-      component: Login,
+      path: '/auth',
+      name: 'auth',
+      component: Auth,
+      meta: {
+        layout: 'none'
+      }
+    },
+    {
+      path: '/auth/callback',
+      name: 'auth-callback',
+      component: Callback,
       meta: {
         layout: 'none'
       }
@@ -67,10 +77,6 @@ const router = new Router({
         layout: 'default',
         requiresAuth: true
       }
-    },
-    {
-      path: '*',
-      redirect: '/dashboard'
     }
   ]
 });

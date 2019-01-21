@@ -1,5 +1,5 @@
 <template>
-  <base-box class="containerLogs" :maxHeight="500">
+  <base-box :maxHeight="500">
     <h3 slot="header">Container Logs</h3>
 
     <div slot="body">
@@ -70,8 +70,3 @@ GET / 304 18.208 ms - -
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.containerLogs {
-}
-</style>

@@ -2,7 +2,7 @@
   <b-container fluid class="dashboardContainer">
     <b-row>
       <b-col cols="12">
-        <div class="test"><h1>Herzlich Wollkommen im Cloudhost</h1></div>
+        <div class="test"><h1>Herzlich Willkommen im Cloudhost</h1></div>
       </b-col>
     </b-row>
   </b-container>
@@ -14,7 +14,15 @@ export default {
       remember: false
     };
   },
-  methods: {}
+  methods: {},
+  async mounted() {
+    const { data } = await this.$axios.get('http://localhost:3000/protected', {
+      headers: {
+        Authorization: `bearer ${this.$store.state.auth.token}`
+      }
+    });
+    console.log({ data });
+  }
 };
 </script>
 

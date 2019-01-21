@@ -10,7 +10,7 @@ export default {
       default: 'primary',
       validator(value) {
         // The value must match one of these strings
-        return ['primary', 'success', 'warning', 'danger'].indexOf(value) !== -1;
+        return ['primary', 'success', 'warning', 'danger', 'custom'].indexOf(value) !== -1;
       }
     }
   },
@@ -20,7 +20,7 @@ export default {
   computed: {
     style() {
       return {
-        backgroundColor: `var(--${this.variant})`
+        backgroundColor: this.variant === 'custom' ? '' : `var(--${this.variant})`
       };
     }
   },

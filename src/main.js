@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css'; // eslint-disable-line
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import axios from './config/axios';
 import './assets/icons';
 import App from './App.vue';
 import router from './router';
@@ -24,6 +25,8 @@ Vue.directive('click-outside', clickOutside);
 Vue.component('base-button', BaseButton);
 
 Vue.config.productionTip = false;
+
+Vue.prototype.$axios = axios;
 
 new Vue({
   router,

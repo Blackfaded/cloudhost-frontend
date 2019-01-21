@@ -5,3 +5,10 @@ services:
     image: cloudhost/frontend_production:latest
     ports:
       - '8080:80'
+    networks: 
+      - cloudhost-backend_app
+
+
+networks:
+  cloudhost-backend_app:
+    external: true
