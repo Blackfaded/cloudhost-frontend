@@ -26,10 +26,7 @@ export default {
     return {};
   },
   computed: {},
-  methods: {},
-  mounted() {
-    console.log('user-edit');
-  }
+  methods: {}
 };
 </script>
 

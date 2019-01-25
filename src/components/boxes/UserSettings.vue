@@ -1,7 +1,7 @@
 <template>
   <base-box class="settingsBox">
     <div slot="body" class="body">
-      <div class="profilePicture"><img :src="PersonPlaceholder" alt="Profile Picture" /></div>
+      <div class="profilePicture"><img :src="profilePicture" alt="Profile Picture" /></div>
       <h5>René Heinen</h5>
     </div>
     <div slot="footer" class="footer">
@@ -26,6 +26,11 @@ export default {
   components: {
     BaseBox,
     ThemeSwitch
+  },
+  computed: {
+    profilePicture() {
+      return this.$store.state.user.profilePictureUrl || this.PersonPlaceholder;
+    }
   },
   methods: {
     ...mapActions(['destroyToken']),

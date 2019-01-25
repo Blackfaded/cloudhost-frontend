@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueHighlightJS from 'vue-highlightjs';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import Snotify, { SnotifyPosition } from 'vue-snotify';
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css'; // eslint-disable-line
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -12,6 +13,12 @@ import store from './store';
 import clickOutside from './directives/clickOutside';
 
 import BaseButton from './components/buttons/BaseButton';
+
+Vue.use(Snotify, {
+  toast: {
+    position: SnotifyPosition.centerTop
+  }
+});
 
 Vue.use(VueHighlightJS);
 

@@ -14,7 +14,7 @@
 
       <button class="profile" @click="toggleSettings">
         <font-awesome-icon icon="cogs" />
-        <span>René Heinen</span>
+        <span>{{ username }}</span>
         <font-awesome-icon icon="chevron-down" class="dropdown" :class="{ active: settingsOpen }" />
       </button>
     </div>
@@ -29,7 +29,7 @@
       <span class="space"></span>
       <button class="profile" @click="toggleSettings">
         <font-awesome-icon icon="cogs" />
-        <span>René Heinen</span>
+        <span>{{ username }}</span>
         <font-awesome-icon icon="chevron-down" class="dropdown" :class="{ active: settingsOpen }" />
       </button>
     </div>
@@ -37,7 +37,7 @@
     <transition name="fade-right">
       <user-settings-box
         v-click-outside="clickedOutside"
-        v-if="settingsOpen"
+        v-show="settingsOpen"
         class="settings"
       ></user-settings-box>
     </transition>
@@ -72,6 +72,11 @@ export default {
     clickedOutside() {
       console.log('outside');
       this.settingsOpen = false;
+    }
+  },
+  computed: {
+    username() {
+      return this.$store.state.user.name;
     }
   }
 };

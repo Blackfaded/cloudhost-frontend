@@ -1,6 +1,11 @@
 <template>
   <b-container fluid class="usersContainer">
-    <user-overview :items="testItems" :fields="fields"></user-overview>
+    <user-overview
+      :users="preparedUsers"
+      :fields="fields"
+      @updateUserData="updateUserData"
+      @toggleRole="toggleRole"
+    ></user-overview>
   </b-container>
 </template>
 <script>
@@ -12,16 +17,10 @@ export default {
   },
   data() {
     return {
-      items: [
-        {
-          'e-mail': 'test@test.de',
-          active: true,
-          admin: false
-        }
-      ],
+      users: [],
       fields: [
         {
-          key: 'e-mail',
+          key: 'email',
           sortable: true
         },
         {
@@ -35,14 +34,74 @@ export default {
       ]
     };
   },
+  methods: {
+    replaceUserinList(updatedUser) {
+      this.users = this.users.map(user => {
+        if (updatedUser.email === user.email) {
+          return updatedUser;
+        }
+        return user;
+      });
+    },
+    async updateUserData({ user, key, value }) {
+      const { data: updatedUser } = await this.$axios.patch(
+        `api/v1/users/${user}`,
+        { [key]: value },
+        {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.user.auth.token}`
+          }
+        }
+      );
+      this.replaceUserinList(updatedUser);
+    },
+    toggleRole({ user, role, flag }) {
+      console.log(user, role, flag);
+      if (!flag) {
+        this.deleteRole(user, role);
+      } else {
+        this.addRole(user, role);
+      }
+    },
+    async deleteRole(user, role) {
+      const { data: updatedUser } = await this.$axios.delete(`api/v1/users/${user}/roles/${role}`, {
+        headers: {
+          Authorization: `Bearer ${this.$store.state.user.auth.token}`
+        }
+      });
+      this.replaceUserinList(updatedUser);
+    },
+    async addRole(user, role) {
+      const { data: updatedUser } = await this.$axios.post(
+        `api/v1/users/${user}/roles`,
+        {
+          role
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.user.auth.token}`
+          }
+        }
+      );
+      this.replaceUserinList(updatedUser);
+    }
+  },
   computed: {
-    testItems() {
-      return Array.from(Array(10)).map(() => ({
-        ...this.items[0],
-        active: Math.floor(Math.random() * 2),
-        admin: Math.floor(Math.random() * 2)
+    preparedUsers() {
+      return this.users.map(user => ({
+        email: user.email,
+        active: user.active,
+        admin: user.roles.some(role => role.name === 'admin')
       }));
     }
+  },
+  async mounted() {
+    const { data } = await this.$axios.get('api/v1/users', {
+      headers: {
+        Authorization: `Bearer ${this.$store.state.user.auth.token}`
+      }
+    });
+    this.users = data;
   }
 };
 </script>

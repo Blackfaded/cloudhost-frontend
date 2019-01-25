@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Auth from '../views/auth/Login';
-import Callback from '../views/auth/Callback';
+import Auth from '../views/Login';
 import Dashboard from '../views/Dashboard';
 import Nodejs from '../views/Nodejs';
 import NodejsApplication from '../views/NodejsApplication';
 import AdminUsers from '../views/admin/Users';
 import AdminUserEdit from '../views/admin/UserEdit';
+
+import { isLoggedIn } from '@/helpers/auth';
 
 Vue.use(Router);
 
@@ -21,14 +22,6 @@ const router = new Router({
       path: '/auth',
       name: 'auth',
       component: Auth,
-      meta: {
-        layout: 'none'
-      }
-    },
-    {
-      path: '/auth/callback',
-      name: 'auth-callback',
-      component: Callback,
       meta: {
         layout: 'none'
       }
@@ -85,9 +78,9 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    if (false) {
+    if (!isLoggedIn()) {
       next({
-        path: '/login'
+        path: '/auth'
       });
     } else {
       next();

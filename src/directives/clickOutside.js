@@ -1,7 +1,7 @@
 export default {
   bind: (el, binding, vnode) => {
     el.clickOutsideEvent = event => {
-      if (!(el === event.target || el.contains(event.target))) {
+      if (!(el === event.target || el.contains(event.target)) && el.style.display !== 'none') {
         vnode.context[binding.expression](event);
       }
     };

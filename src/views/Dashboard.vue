@@ -7,24 +7,6 @@
     </b-row>
   </b-container>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      remember: false
-    };
-  },
-  methods: {},
-  async mounted() {
-    const { data } = await this.$axios.get('http://localhost:3000/protected', {
-      headers: {
-        Authorization: `bearer ${this.$store.state.auth.token}`
-      }
-    });
-    console.log({ data });
-  }
-};
-</script>
 
 <style lang="scss" scoped>
 .dashboardContainer {
