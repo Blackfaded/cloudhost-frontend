@@ -8,13 +8,9 @@ export default {
   destroyToken({ commit }) {
     commit(DESTROY_TOKEN);
   },
-  async setUser({ commit, state }) {
+  async setUser({ commit }) {
     try {
-      const { data: user } = await axios.get('api/v1/users/self', {
-        headers: {
-          Authorization: `Bearer ${state.auth.token}`
-        }
-      });
+      const { data: user } = await axios.get('users/self');
       commit(SET_USER, user);
     } catch (error) {
       commit(DESTROY_USER);

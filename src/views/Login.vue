@@ -48,7 +48,7 @@ export default {
       try {
         const {
           data: { token }
-        } = await this.$axios.post('auth', {
+        } = await this.$axios.post(`${process.env.VUE_APP_BACKEND_URL}auth`, {
           username: this.username,
           password: this.password
         });

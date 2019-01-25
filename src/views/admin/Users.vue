@@ -44,15 +44,9 @@ export default {
       });
     },
     async updateUserData({ user, key, value }) {
-      const { data: updatedUser } = await this.$axios.patch(
-        `api/v1/users/${user}`,
-        { [key]: value },
-        {
-          headers: {
-            Authorization: `Bearer ${this.$store.state.user.auth.token}`
-          }
-        }
-      );
+      const { data: updatedUser } = await this.$axios.patch(`users/${user}`, {
+        [key]: value
+      });
       this.replaceUserinList(updatedUser);
     },
     toggleRole({ user, role, flag }) {
@@ -64,25 +58,13 @@ export default {
       }
     },
     async deleteRole(user, role) {
-      const { data: updatedUser } = await this.$axios.delete(`api/v1/users/${user}/roles/${role}`, {
-        headers: {
-          Authorization: `Bearer ${this.$store.state.user.auth.token}`
-        }
-      });
+      const { data: updatedUser } = await this.$axios.delete(`users/${user}/roles/${role}`);
       this.replaceUserinList(updatedUser);
     },
     async addRole(user, role) {
-      const { data: updatedUser } = await this.$axios.post(
-        `api/v1/users/${user}/roles`,
-        {
-          role
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${this.$store.state.user.auth.token}`
-          }
-        }
-      );
+      const { data: updatedUser } = await this.$axios.post(`users/${user}/roles`, {
+        role
+      });
       this.replaceUserinList(updatedUser);
     }
   },
@@ -96,11 +78,7 @@ export default {
     }
   },
   async mounted() {
-    const { data } = await this.$axios.get('api/v1/users', {
-      headers: {
-        Authorization: `Bearer ${this.$store.state.user.auth.token}`
-      }
-    });
+    const { data } = await this.$axios.get('users');
     this.users = data;
   }
 };

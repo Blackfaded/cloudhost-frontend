@@ -21,9 +21,6 @@ export default {
         'max-height': this.maxHeight ? `${this.maxHeight}px` : ''
       };
     }
-  },
-  mounted() {
-    console.log(this.maxHeight);
   }
 };
 </script>
