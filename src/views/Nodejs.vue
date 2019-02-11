@@ -14,6 +14,7 @@
     <application-create-modal
       v-if="showCreateApplicationModal"
       @close="showCreateApplicationModal = false"
+      :repositories="repositories"
     ></application-create-modal>
   </b-container>
 </template>
@@ -24,12 +25,19 @@ import ApplicationCreateModal from '@/components/modals/ApplicationCreate';
 export default {
   data() {
     return {
-      showCreateApplicationModal: false
+      showCreateApplicationModal: false,
+      repositories: []
     };
   },
   components: {
     ApplicationBox,
     ApplicationCreateModal
+  },
+  async mounted() {
+    const { data } = await this.$axios.get(
+      `${process.env.VUE_APP_BACKEND_URL}api/v1/users/${this.$store.state.user.email}/projects`
+    );
+    this.repositories = data;
   }
 };
 </script>

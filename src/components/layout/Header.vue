@@ -55,6 +55,10 @@ export default {
     collapsed: {
       type: Boolean,
       default: false
+    },
+    toggleSideNav: {
+      type: Function,
+      required: true
     }
   },
   data() {
@@ -63,14 +67,10 @@ export default {
     };
   },
   methods: {
-    toggleSideNav() {
-      this.$emit('toggleSideNav');
-    },
     toggleSettings() {
       this.settingsOpen = !this.settingsOpen;
     },
     clickedOutside() {
-      console.log('outside');
       this.settingsOpen = false;
     }
   },

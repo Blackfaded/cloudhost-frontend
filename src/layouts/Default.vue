@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <header-nav :collapsed="isSidenavCollapsed" @toggleSideNav="toggleSideNav"></header-nav>
+    <header-nav :collapsed="isSidenavCollapsed" :toggleSideNav="toggleSideNav"></header-nav>
     <div class="body">
       <side-nav :collapsed="isSidenavCollapsed"></side-nav>
       <div class="content">

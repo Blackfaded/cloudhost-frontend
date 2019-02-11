@@ -1,5 +1,7 @@
 <template>
-  <button class="button" :style="style" @click="click"><slot></slot></button>
+  <button class="button" :class="{ disabled }" :style="style" @click="click" :disabled="disabled">
+    <slot></slot>
+  </button>
 </template>
 
 <script>
@@ -12,6 +14,10 @@ export default {
         // The value must match one of these strings
         return ['primary', 'success', 'warning', 'danger', 'custom'].indexOf(value) !== -1;
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -40,10 +46,13 @@ export default {
   border-radius: 5px;
   transition: transform;
   padding: 5px 10px;
-  &:hover {
+  &:hover:not(.disabled) {
     transform: scale(1.01);
     cursor: pointer;
     filter: brightness(70%);
+  }
+  &.disabled {
+    filter: brightness(40%);
   }
 }
 </style>
