@@ -9,15 +9,14 @@ services:
       - .env.development
     labels:
       - 'traefik.enable=true'
-      - 'traefik.backend=cloudhost.localhost'
+      - 'traefik.backend=cloudhost-frontend'
+      - 'traefik.docker.network=traefik'
       - 'traefik.frontend.rule=Host:cloudhost.localhost'
       - 'traefik.port=8080'
     command: npm run serve
     volumes:
       - .:/usr/app/frontend/
       - /usr/app/frontend/node_modules
-    ports:
-      - '8080:8080'
     stdin_open: true
     tty: true
     environment:
