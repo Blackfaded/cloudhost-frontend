@@ -2,34 +2,35 @@
   <base-modal @close="close" class="applicationDetails">
     <h3 slot="header">Create Application</h3>
 
-    <div slot="body">
+    <template slot="body">
       <h4>Base Configuration</h4>
-      <div v-if="!repositories.length">
+      <spinner v-if="loading" class="spinner"></spinner>
+      <div v-else-if="!repositories.length">
         You do not have any repositories on <a href="https://www.git.hsrw.eu">www.git.hsrw.eu</a>
       </div>
       <template v-else>
         <div>Select a repository</div>
         <b-form-select :value="selectedRepository" @change="repositoryChange" class="mb-3">
-          <option v-for="(repo, index) in repositories" :key="index" :value="repo">
-            {{ repo.path_with_namespace }}
-          </option>
+          <option v-for="(repo, index) in repositories" :key="index" :value="repo">{{
+            repo.path_with_namespace
+          }}</option>
         </b-form-select>
 
         <template v-if="branches.length">
           <div>Select a branch</div>
           <b-form-select :value="selectedBranch" @change="branchChange" class="mb-3">
-            <option v-for="(branch, index) in branches" :key="index" :value="branch">
-              {{ branch.name }}
-            </option>
+            <option v-for="(branch, index) in branches" :key="index" :value="branch">{{
+              branch.name
+            }}</option>
           </b-form-select>
         </template>
 
         <template v-if="runScripts.length">
           <div>Select a Run-Script</div>
           <b-form-select v-model="selectedRunScript" class="mb-3">
-            <option v-for="(script, index) in runScripts" :key="index" :value="script">
-              {{ script }}
-            </option>
+            <option v-for="(script, index) in runScripts" :key="index" :value="script">{{
+              script
+            }}</option>
           </b-form-select>
         </template>
         <template v-if="selectedRunScript">
@@ -45,7 +46,7 @@
         <div>Additional Features</div>
         <b-form-checkbox>Attach Mongo DB</b-form-checkbox>
       </template>
-    </div>
+    </template>
     <div slot="footer" class="footer">
       <base-button variant="danger" @click="close">Cancel</base-button>
       <base-button
@@ -60,15 +61,21 @@
 
 <script>
 import BaseModal from './BaseModal';
+import Spinner from '@/components/loader/Spinner';
 
 export default {
   components: {
-    BaseModal
+    BaseModal,
+    Spinner
   },
   props: {
     repositories: {
       type: Array,
       default: () => []
+    },
+    loading: {
+      type: Boolean,
+      required: true
     }
   },
   data() {
@@ -132,9 +139,10 @@ export default {
 
 <style lang="scss" scoped>
 .applicationDetails {
-  .box {
-    width: 400px;
+  .spinner {
+    margin: 0 auto;
   }
+
   .footer {
     display: flex;
     justify-content: flex-end;

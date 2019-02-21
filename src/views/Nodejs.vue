@@ -15,6 +15,7 @@
       v-if="showCreateApplicationModal"
       @close="showCreateApplicationModal = false"
       :repositories="repositories"
+      :loading="loadingRepositories"
     ></application-create-modal>
   </b-container>
 </template>
@@ -26,6 +27,7 @@ export default {
   data() {
     return {
       showCreateApplicationModal: false,
+      loadingRepositories: true,
       repositories: []
     };
   },
@@ -38,6 +40,7 @@ export default {
       `${process.env.VUE_APP_BACKEND_URL}api/v1/users/${this.$store.state.user.email}/projects`
     );
     this.repositories = data;
+    this.loadingRepositories = false;
   }
 };
 </script>
