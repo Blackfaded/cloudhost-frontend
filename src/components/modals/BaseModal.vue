@@ -14,15 +14,20 @@ import BaseBox from '../boxes/BaseBox';
 
 export default {
   props: {
-    showModal: Boolean
+    showModal: Boolean,
+    maskdisabled: {
+      type: Boolean,
+      default: false
+    }
   },
   components: {
     BaseBox
   },
   methods: {
     close() {
-      console.log('close');
-      this.$emit('close');
+      if (!this.maskdisabled) {
+        this.$emit('close');
+      }
     }
   }
 };

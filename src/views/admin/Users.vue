@@ -58,8 +58,15 @@ export default {
       }
     },
     async deleteRole(user, role) {
-      const { data: updatedUser } = await this.$axios.delete(`users/${user}/roles/${role}`);
-      this.replaceUserinList(updatedUser);
+      try {
+        const { data: updatedUser } = await this.$axios.delete(`users/${user}/roles/${role}`);
+        this.replaceUserinList(updatedUser);
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          console.log(this.$snotify);
+          this.$snotify.error(error.response.data.message, error.response.data.error);
+        }
+      }
     },
     async addRole(user, role) {
       const { data: updatedUser } = await this.$axios.post(`users/${user}/roles`, {
@@ -80,6 +87,7 @@ export default {
   async mounted() {
     const { data } = await this.$axios.get('users');
     this.users = data;
+    console.log('df');
   }
 };
 </script>

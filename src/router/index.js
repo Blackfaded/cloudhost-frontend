@@ -4,6 +4,7 @@ import Auth from '../views/Login';
 import Dashboard from '../views/Dashboard';
 import Nodejs from '../views/Nodejs';
 import NodejsApplication from '../views/NodejsApplication';
+import Admin from '../views/admin';
 import AdminUsers from '../views/admin/Users';
 import AdminUserEdit from '../views/admin/UserEdit';
 
@@ -21,10 +22,7 @@ const router = new Router({
     {
       path: '/auth',
       name: 'auth',
-      component: Auth,
-      meta: {
-        layout: 'none'
-      }
+      component: Auth
     },
     {
       path: '/dashboard',
@@ -54,22 +52,32 @@ const router = new Router({
       }
     },
     {
-      path: '/admin/users',
-      name: 'admin-users',
-      component: AdminUsers,
+      path: '/admin',
+      name: 'admin',
+      component: Admin,
       meta: {
         layout: 'default',
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/admin/users/:id',
-      name: 'admin-user-edit',
-      component: AdminUserEdit,
-      meta: {
-        layout: 'default',
-        requiresAuth: true
-      }
+        requiresAuth: true,
+        requiresRole: ['admin']
+      },
+      children: [
+        {
+          path: 'users',
+          name: 'admin-users',
+          component: AdminUsers,
+          meta: {
+            layout: 'default'
+          }
+        },
+        {
+          path: 'users/:id',
+          name: 'admin-user-edit',
+          component: AdminUserEdit,
+          meta: {
+            layout: 'default'
+          }
+        }
+      ]
     }
   ]
 });

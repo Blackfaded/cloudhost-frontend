@@ -1,6 +1,5 @@
 <template>
   <b-container class="loginContainer">
-    <vue-snotify></vue-snotify>
     <theme-switch class="switch"></theme-switch>
     <b-row>
       <b-col cols="8" offset="2"> <h1 class="headline">Cloudhost</h1> </b-col>

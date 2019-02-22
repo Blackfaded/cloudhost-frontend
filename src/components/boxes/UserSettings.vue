@@ -2,7 +2,7 @@
   <base-box class="settingsBox">
     <div slot="body" class="body">
       <div class="profilePicture"><img :src="profilePicture" alt="Profile Picture" /></div>
-      <h5>René Heinen</h5>
+      <h5>{{ userName }}</h5>
     </div>
     <div slot="footer" class="footer">
       <theme-switch></theme-switch>
@@ -30,6 +30,9 @@ export default {
   computed: {
     profilePicture() {
       return this.$store.state.user.profilePictureUrl || this.PersonPlaceholder;
+    },
+    userName() {
+      return this.$store.state.user.name;
     }
   },
   methods: {

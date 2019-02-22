@@ -1,5 +1,8 @@
 <template>
-  <component :is="layout" id="app"> <router-view /> </component>
+  <component :is="layout" id="app">
+    <vue-snotify></vue-snotify>
+    <router-view />
+  </component>
 </template>
 <script>
 import DefaultLayout from '@/layouts/Default';
@@ -13,7 +16,8 @@ export default {
   computed: {
     layout() {
       const { layout } = this.$route.meta;
-      return layout === 'none' ? 'div' : `${layout}-layout`;
+      console.log(this.$route);
+      return layout ? `${layout}-layout` : 'div';
     }
   },
   mounted() {

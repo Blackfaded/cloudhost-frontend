@@ -1,8 +1,8 @@
 <template>
-  <base-modal @close="close" class="applicationDetails">
+  <base-modal @close="close" maskdisabled class="applicationDetails">
     <h3 slot="header">Create Application</h3>
 
-    <template slot="body">
+    <template v-if="!isApplicationCreating" slot="body">
       <h4>Base Configuration</h4>
       <spinner v-if="loading" class="spinner"></spinner>
       <div v-else-if="!repositories.length">
@@ -11,55 +11,68 @@
       <template v-else>
         <div>Select a repository</div>
         <b-form-select :value="selectedRepository" @change="repositoryChange" class="mb-3">
-          <option v-for="(repo, index) in repositories" :key="index" :value="repo">{{
-            repo.path_with_namespace
-          }}</option>
+          <option v-for="(repo, index) in repositories" :key="index" :value="repo">
+            {{ repo.path_with_namespace }}
+          </option>
         </b-form-select>
 
         <template v-if="branches.length">
           <div>Select a branch</div>
           <b-form-select :value="selectedBranch" @change="branchChange" class="mb-3">
-            <option v-for="(branch, index) in branches" :key="index" :value="branch">{{
-              branch.name
-            }}</option>
+            <option v-for="(branch, index) in branches" :key="index" :value="branch">
+              {{ branch.name }}
+            </option>
           </b-form-select>
         </template>
 
         <template v-if="runScripts.length">
           <div>Select a Run-Script</div>
           <b-form-select v-model="selectedRunScript" class="mb-3">
-            <option v-for="(script, index) in runScripts" :key="index" :value="script">{{
-              script
-            }}</option>
+            <option v-for="(script, index) in runScripts" :key="index" :value="script">
+              {{ script }}
+            </option>
           </b-form-select>
         </template>
         <template v-if="selectedRunScript">
           <div>Select a Mount Path</div>
           <b-input-group size="sm">
             <b-input-group-text slot="prepend">
-              <span>{{ mountPath }}</span>
+              <span>{{ mountPathPrefix }}</span>
             </b-input-group-text>
-            <b-form-input :value="this.selectedRepository.path"></b-form-input>
+            <b-form-input v-model="mountPath"></b-form-input>
           </b-input-group>
         </template>
+
+        <spinner v-if="loadingRequest" class="spinner"></spinner>
+
         <hr />
         <div>Additional Features</div>
         <b-form-checkbox>Attach Mongo DB</b-form-checkbox>
       </template>
     </template>
+    <template v-else slot="body">
+      <div class="logs">
+        <pre v-highlightjs="applicationCreateLogs"><code class="shell-session"></code></pre>
+      </div>
+    </template>
+
     <div slot="footer" class="footer">
-      <base-button variant="danger" @click="close">Cancel</base-button>
-      <base-button
-        variant="primary"
-        :disabled="isCreateApplicationButtonDisabled"
-        @click="createApplication"
-        >Create Application</base-button
-      >
+      <template v-if="!isApplicationCreating">
+        <base-button variant="danger" @click="close">Cancel</base-button>
+        <base-button
+          variant="primary"
+          :disabled="isCreateApplicationButtonDisabled"
+          @click="createApplication"
+          >Create Application</base-button
+        >
+      </template>
+      <base-button v-if="applicationCreated" @click="close" variant="primary">Done</base-button>
     </div>
   </base-modal>
 </template>
 
 <script>
+import io from 'socket.io-client';
 import BaseModal from './BaseModal';
 import Spinner from '@/components/loader/Spinner';
 
@@ -84,11 +97,25 @@ export default {
       selectedBranch: null,
       selectedRunScript: null,
       branches: [],
-      runScripts: []
+      runScripts: [],
+      loadingRequest: false,
+      mountPath: '',
+      socket: null,
+      applicationCreated: false,
+      isApplicationCreating: false,
+      applicationCreateLogs: ''
     };
   },
+  mounted() {
+    this.socket = io(`${process.env.VUE_APP_BACKEND_URL}test`);
+    console.log(this.socket);
+    this.socket.on('buildProgress', this.buildProgress);
+  },
+  beforeDestroy() {
+    this.socket.close();
+  },
   computed: {
-    mountPath() {
+    mountPathPrefix() {
       return `${process.env.VUE_APP_DOMAIN}/${this.$store.state.user.email.split('@')[0]}/`;
     },
     isCreateApplicationButtonDisabled() {
@@ -96,6 +123,9 @@ export default {
     }
   },
   methods: {
+    buildProgress({ message }) {
+      this.applicationCreateLogs += `${message}\n`;
+    },
     close() {
       this.$emit('close');
     },
@@ -105,33 +135,44 @@ export default {
     },
     async createApplication() {
       console.log('create application');
+      this.isApplicationCreating = true;
       const { data } = await this.$axios.post(
         `${process.env.VUE_APP_BACKEND_URL}api/v1/applications`,
         {
+          repositoryName: this.selectedRepository.path_with_namespace,
           repositoryId: this.selectedRepository.id,
           branchName: this.selectedBranch.name,
-          runScript: this.selectedRunScript
+          runScript: this.selectedRunScript,
+          mountPath: this.mountPath
         }
       );
+      this.applicationCreated = true;
       console.log(data);
     },
     async repositoryChange(repo) {
+      this.loadingRequest = true;
       this.selectedRepository = repo;
+      this.mountPath = this.selectedRepository.path;
       const { data } = await this.$axios.get(
         `${process.env.VUE_APP_BACKEND_URL}api/v1/repositories/${
           this.selectedRepository.id
         }/branches`
       );
       this.branches = data;
+      this.loadingRequest = false;
     },
     async branchChange(branch) {
+      this.loadingRequest = true;
       this.selectedBranch = branch;
+      this.runScripts = [];
+      this.selectedRunScript = null;
       const { data } = await this.$axios.get(
         `${process.env.VUE_APP_BACKEND_URL}api/v1/repositories/${
           this.selectedRepository.id
         }/branches/${this.selectedBranch.name}/runScripts`
       );
       this.runScripts = data;
+      this.loadingRequest = false;
     }
   }
 };
@@ -151,5 +192,8 @@ export default {
       margin-left: 10px;
     }
   }
+}
+.logs {
+  max-height: 400px;
 }
 </style>

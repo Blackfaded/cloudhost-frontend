@@ -11,18 +11,22 @@
           <span class="listText" :class="{ collapsed: collapsed }">{{ link.name }}</span>
         </router-link>
       </li>
-      <li class="administration"><span v-if="!collapsed">Administration</span></li>
-      <li v-for="(link, index) in adminLinks" :key="`${index}-admin`">
-        <router-link :to="link.to" :class="{ disabled: checkDisabled(link) }">
-          <font-awesome-icon :icon="[link.icon.prefix, link.icon.name]" />
-          <span class="listText" :class="{ collapsed: collapsed }">{{ link.name }}</span>
-        </router-link>
-      </li>
+      <template v-if="checkRole('admin')">
+        <li class="administration"><span v-if="!collapsed">Administration</span></li>
+        <li v-for="(link, index) in adminLinks" :key="`${index}-admin`">
+          <router-link :to="link.to" :class="{ disabled: checkDisabled(link) }">
+            <font-awesome-icon :icon="[link.icon.prefix, link.icon.name]" />
+            <span class="listText" :class="{ collapsed: collapsed }">{{ link.name }}</span>
+          </router-link>
+        </li>
+      </template>
     </ul>
   </div>
 </template>
 
 <script>
+import checkRole from '@/mixins/checkRole';
+
 export default {
   props: {
     collapsed: {
@@ -30,6 +34,7 @@ export default {
       default: false
     }
   },
+  mixins: [checkRole],
   data() {
     return {
       links: [
