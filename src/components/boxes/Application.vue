@@ -1,14 +1,14 @@
 <template>
   <base-box class="applicationBox">
     <div slot="header" class="header">
-      <a href="dsdf">sdfsfsdf</a>
+      <a :href="applicationLink">{{ application.appName }}</a>
       <div class="icons">
         <router-link to="/node/1234"> <font-awesome-icon icon="cogs" /> </router-link>
       </div>
     </div>
     <div slot="body">
-      <div>Reponame: myTemplate</div>
-      <div>Branch: master</div>
+      <div>Repository: {{ application.repositoryName }}</div>
+      <div>Branch: {{ application.repositoryBranch }}</div>
     </div>
     <div slot="footer" class="footer"><application-switch></application-switch></div>
   </base-box>
@@ -22,6 +22,17 @@ export default {
   components: {
     BaseBox,
     ApplicationSwitch
+  },
+  props: {
+    application: {
+      type: Object,
+      required: true
+    }
+  },
+  computed: {
+    applicationLink() {
+      return `${process.env.VUE_APP_DOMAIN}/${this.application.mountPath}/`;
+    }
   }
 };
 </script>

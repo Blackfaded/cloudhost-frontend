@@ -10,13 +10,23 @@
         <div class="loginBox">
           <h5 class="loginBoxMessage">Sign in</h5>
           <b-input-group class="input">
-            <b-form-input type="text" v-model="username" placeholder="E-Mail"></b-form-input>
+            <b-form-input
+              @keyup.native.enter="login"
+              type="text"
+              v-model="username"
+              placeholder="E-Mail"
+            ></b-form-input>
             <b-input-group-append is-text>
               <font-awesome-icon icon="envelope" />
             </b-input-group-append>
           </b-input-group>
           <b-input-group class="input">
-            <b-form-input type="password" v-model="password" placeholder="Password"></b-form-input>
+            <b-form-input
+              @keyup.native.enter="login"
+              type="password"
+              v-model="password"
+              placeholder="Password"
+            ></b-form-input>
             <b-input-group-append is-text> <font-awesome-icon icon="lock" /> </b-input-group-append>
           </b-input-group>
           <div class="footer">
