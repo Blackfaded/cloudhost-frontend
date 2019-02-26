@@ -1,7 +1,8 @@
 <template>
   <toggle-button
     class="toggle"
-    v-model="running"
+    :value="running"
+    :sync="true"
     :labels="{
       checked: pending ? 'Starting...' : 'Running',
       unchecked: pending ? 'Stopping...' : 'Stopped'
@@ -13,7 +14,7 @@
     :width="100"
     :height="30"
     :disabled="pending"
-    @change="statusChange"
+    @change="change"
   />
 </template>
 
@@ -24,23 +25,19 @@ export default {
   components: {
     ToggleButton
   },
-  data() {
-    return {
-      running: false,
-      pending: false
-    };
-  },
-  computed: {
-    style() {
-      return {};
+  props: {
+    running: {
+      type: Boolean,
+      required: true
+    },
+    pending: {
+      type: Boolean,
+      required: true
     }
   },
   methods: {
-    statusChange() {
-      this.pending = true;
-      setTimeout(() => {
-        this.pending = false;
-      }, 2000);
+    change(value) {
+      this.$emit('change', value);
     }
   }
 };

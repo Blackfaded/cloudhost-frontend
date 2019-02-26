@@ -30,7 +30,7 @@ export default {
   color: #000;
   margin: 10px 0;
   background-color: #ffffff;
-  box-shadow: 10px 11px 59px 0px rgba(0, 0, 0, 0.45);
+  box-shadow: 10px 11px 59px 0px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   & > * {
     padding: 15px;

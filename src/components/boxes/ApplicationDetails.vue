@@ -40,7 +40,9 @@
         </tbody>
       </table>
     </div>
-    <div slot="footer"><application-switch></application-switch></div>
+    <div slot="footer">
+      <application-switch :applicationName="application.appName"></application-switch>
+    </div>
   </base-box>
 </template>
 

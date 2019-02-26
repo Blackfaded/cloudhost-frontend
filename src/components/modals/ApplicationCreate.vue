@@ -175,7 +175,6 @@ export default {
   },
   methods: {
     downloadProgress({ progress }) {
-      console.log({ progress });
       this.progressBars.pullingRepo.progress = progress;
     },
     startBuildImage() {

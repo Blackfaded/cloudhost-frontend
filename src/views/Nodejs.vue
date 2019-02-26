@@ -23,6 +23,7 @@
     ></application-create-modal>
   </b-container>
 </template>
+
 <script>
 import ApplicationBox from '@/components/boxes/Application';
 import ApplicationCreateModal from '@/components/modals/ApplicationCreate';
@@ -52,7 +53,6 @@ export default {
       `${process.env.VUE_APP_BACKEND_URL}api/v1/applications`
     );
     this.applications = applications;
-
     const { data } = await this.$axios.get(
       `${process.env.VUE_APP_BACKEND_URL}api/v1/users/${this.$store.state.user.email}/projects`
     );
