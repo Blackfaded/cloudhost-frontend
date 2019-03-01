@@ -7,6 +7,7 @@ import NodejsApplication from '../views/NodejsApplication';
 import Admin from '../views/admin';
 import AdminUsers from '../views/admin/Users';
 import AdminUserEdit from '../views/admin/UserEdit';
+import FourOFour from '../views/FourOFour';
 
 import { isLoggedIn } from '@/helpers/auth';
 
@@ -78,6 +79,11 @@ const router = new Router({
           }
         }
       ]
+    },
+    {
+      path: '*',
+      name: 'fourofour',
+      component: FourOFour
     }
   ]
 });

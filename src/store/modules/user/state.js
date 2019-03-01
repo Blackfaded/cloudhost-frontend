@@ -3,6 +3,7 @@ export default {
     token: ''
   },
   email: '',
+  userName: '',
   name: '',
   roles: [],
   profilePictureUrl: ''

@@ -37,6 +37,7 @@ export default {
   }
   &Body {
     overflow-y: auto;
+    min-height: 100px;
   }
 }
 </style>

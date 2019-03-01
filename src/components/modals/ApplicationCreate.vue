@@ -33,6 +33,24 @@
             }}</option>
           </b-form-select>
         </template>
+
+        <template v-if="runScripts.length">
+          <b-form-checkbox
+            v-model="needsBuildScript"
+            v-b-tooltip.hover
+            title="This script gets executed before your application launches.
+            For example if you need to build your frontend files."
+          >
+            Select a Build-Script (optional)
+          </b-form-checkbox>
+
+          <b-form-select v-if="needsBuildScript" v-model="selectedBuildScript" class="mb-3">
+            <option v-for="(script, index) in runScripts" :key="index" :value="script">{{
+              script
+            }}</option>
+          </b-form-select>
+        </template>
+
         <template v-if="selectedRunScript">
           <div>Select a Mount Path</div>
           <b-input-group size="sm">
@@ -108,10 +126,12 @@ export default {
   },
   data() {
     return {
+      needsBuildScript: false,
       needsMongo: false,
       selectedRepository: null,
       selectedBranch: null,
       selectedRunScript: null,
+      selectedBuildScript: null,
       branches: [],
       runScripts: [],
       loadingRequest: false,
@@ -207,8 +227,11 @@ export default {
     async checkApplicationCreate() {
       if (await this.doesApplicationAlreadyExist()) {
         this.$snotify.confirm(
-          'You already have an application under this path. If you click on "Yes" your old application gets removed and your new one is available under this path. Do you want to delete your old application?',
-          'Alte Applikation löschen?',
+          'You already have an application under this path. ' +
+            'If you click on "Yes" your old application gets removed ' +
+            'and your new one is available under this path. ' +
+            'Do you want to delete your old application?',
+          'Delete old application?',
           {
             closeOnClick: false,
             backdrop: 0.3,
@@ -230,20 +253,32 @@ export default {
       }
     },
     async createApplication() {
-      this.isApplicationCreating = true;
-      const { data: application } = await this.$axios.post(
-        `${process.env.VUE_APP_BACKEND_URL}api/v1/applications`,
-        {
+      try {
+        this.isApplicationCreating = true;
+        const options = {
           repositoryName: this.selectedRepository.path,
           repositoryId: this.selectedRepository.id,
           branchName: this.selectedBranch.name,
           runScript: this.selectedRunScript,
           appName: this.appName,
           needsMongo: this.needsMongo
+        };
+        if (this.needsBuildScript) {
+          options.buildScript = this.selectedBuildScript;
         }
-      );
-      this.applicationCreated = true;
-      EventBus.$emit('applicationCreated', application);
+        const { data: application } = await this.$axios.post(
+          `${process.env.VUE_APP_BACKEND_URL}api/v1/applications`,
+          options
+        );
+        this.applicationCreated = true;
+        EventBus.$emit('applicationCreated', application);
+      } catch (error) {
+        this.isApplicationCreating = false;
+        if (error.response && error.response.data && error.response.data.message) {
+          this.$snotify.error(error.response.data.message, error.response.data.error);
+        }
+        console.log({ error });
+      }
     },
     async repositoryChange(repo) {
       this.loadingRequest = true;
