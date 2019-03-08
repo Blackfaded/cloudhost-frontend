@@ -50,13 +50,15 @@ export default {
         },
         {
           name: 'MongoDB',
-          to: '/mongo',
-          icon: { prefix: 'fas', name: 'database' }
+          to: `/mongo/${this.$store.state.user.userName}`,
+          icon: { prefix: 'fas', name: 'database' },
+          external: true
         },
         {
           name: 'GitLab',
           to: 'http://git.hsrw.eu',
-          icon: { prefix: 'fab', name: 'gitlab' }
+          icon: { prefix: 'fab', name: 'gitlab' },
+          external: true
         },
         {
           name: 'Help',
@@ -75,7 +77,7 @@ export default {
   },
   methods: {
     isLinkExternal(link) {
-      return link.to.includes('http');
+      return link.external;
     },
     checkDisabled(link) {
       return link.to === this.$route.path;

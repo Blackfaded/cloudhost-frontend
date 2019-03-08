@@ -1,10 +1,12 @@
 <template>
-  <b-container fluid>
+  <b-container fluid v-if="application">
     <b-row>
-      <b-col cols="12"> <application-details></application-details> </b-col>
+      <b-col cols="12">
+        <application-details :application="application"></application-details>
+      </b-col>
     </b-row>
     <b-row>
-      <b-col cols="12"> <container-logs></container-logs> </b-col>
+      <b-col cols="12"> <container-logs :appName="application.appName"></container-logs> </b-col>
     </b-row>
     <b-row>
       <b-col cols="12">
@@ -24,13 +26,20 @@ import BaseBox from '@/components/boxes/BaseBox';
 export default {
   data() {
     return {
-      remember: false
+      application: null
     };
   },
   components: {
     ApplicationDetails,
     ContainerLogs,
     BaseBox
+  },
+  async mounted() {
+    const { data: application } = await this.$axios.get(
+      `${process.env.VUE_APP_BACKEND_URL}/applications/${this.$route.params.id}`
+    );
+    console.log(application);
+    this.application = application;
   }
 };
 </script>

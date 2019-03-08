@@ -6,7 +6,7 @@
       <h4>Base Configuration</h4>
       <spinner v-if="loading" class="spinner"></spinner>
       <div v-else-if="!repositories.length">
-        You do not have any repositories on <a href="https://www.git.hsrw.eu">www.git.hsrw.eu</a>
+        You do not have any repositories on <a href="https://git.hsrw.eu">git.hsrw.eu</a>
       </div>
       <template v-else>
         <div>Select a repository</div>
@@ -162,7 +162,7 @@ export default {
     };
   },
   mounted() {
-    this.socket = io(`${process.env.VUE_APP_BACKEND_URL}test`);
+    this.socket = io(`${process.env.VUE_APP_BACKEND_URL}/test`);
     this.socket.on('repoDownloadProgress', this.downloadProgress);
     this.socket.on('startBuildImage', this.startBuildImage);
     this.socket.on('finishBuildImage', this.finishBuildImage);
@@ -220,9 +220,9 @@ export default {
     },
     async doesApplicationAlreadyExist() {
       const { data: applications } = await this.$axios.get(
-        `${process.env.VUE_APP_BACKEND_URL}api/v1/applications/${this.appName}`
+        `${process.env.VUE_APP_BACKEND_URL}/applications/${this.appName}`
       );
-      return applications.length;
+      return !!applications;
     },
     async checkApplicationCreate() {
       if (await this.doesApplicationAlreadyExist()) {
@@ -267,7 +267,7 @@ export default {
           options.buildScript = this.selectedBuildScript;
         }
         const { data: application } = await this.$axios.post(
-          `${process.env.VUE_APP_BACKEND_URL}api/v1/applications`,
+          `${process.env.VUE_APP_BACKEND_URL}/applications`,
           options
         );
         this.applicationCreated = true;
@@ -285,9 +285,7 @@ export default {
       this.selectedRepository = repo;
       this.appName = this.selectedRepository.path;
       const { data } = await this.$axios.get(
-        `${process.env.VUE_APP_BACKEND_URL}api/v1/repositories/${
-          this.selectedRepository.id
-        }/branches`
+        `${process.env.VUE_APP_BACKEND_URL}/repositories/${this.selectedRepository.id}/branches`
       );
       this.branches = data;
       this.loadingRequest = false;
@@ -298,9 +296,9 @@ export default {
       this.runScripts = [];
       this.selectedRunScript = null;
       const { data } = await this.$axios.get(
-        `${process.env.VUE_APP_BACKEND_URL}api/v1/repositories/${
-          this.selectedRepository.id
-        }/branches/${this.selectedBranch.name}/runScripts`
+        `${process.env.VUE_APP_BACKEND_URL}/repositories/${this.selectedRepository.id}/branches/${
+          this.selectedBranch.name
+        }/runScripts`
       );
       this.runScripts = data;
       this.loadingRequest = false;

@@ -26,19 +26,38 @@ export default {
     ToggleButton
   },
   props: {
-    running: {
-      type: Boolean,
-      required: true
-    },
-    pending: {
-      type: Boolean,
+    application: {
+      type: Object,
       required: true
     }
   },
+  data() {
+    return {
+      pending: false,
+      running: false
+    };
+  },
   methods: {
-    change(value) {
-      this.$emit('change', value);
+    async change({ value }) {
+      const oldValue = !value;
+      this.running = value;
+      this.pending = true;
+      try {
+        await this.$axios.post(
+          `${process.env.VUE_APP_BACKEND_URL}/applications/${this.application.appName}/${
+            value ? 'start' : 'stop'
+          }`
+        );
+      } catch (error) {
+        this.running = oldValue;
+        console.log({ error });
+      }
+
+      this.pending = false;
     }
+  },
+  mounted() {
+    this.running = this.application.running;
   }
 };
 </script>

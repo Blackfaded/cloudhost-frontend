@@ -9,64 +9,41 @@
 </template>
 
 <script>
+import io from 'socket.io-client';
+
 import BaseBox from './BaseBox';
 
 export default {
   data() {
     return {
-      logs: `> demo@0.0.0 start /app
-> node ./bin/www
-
-
-> demo@0.0.0 start /app
-> node ./bin/www
-
-GET / 200 2558.978 ms - 170
-GET / 304 28.012 ms - -
-
-> demo@0.0.0 start /app
-> node ./bin/www
-
-GET / 200 5606.509 ms - 170
-GET / 304 216.567 ms - -
-GET / 200 21.243 ms - 170
-
-> demo@0.0.0 start /app
-> node ./bin/www
-
-
-> demo@0.0.0 start /app
-> node ./bin/www
-
-GET / 200 2372.817 ms - 170
-
-> demo@0.0.0 start /app
-> node ./bin/www
-
-GET / 200 3397.882 ms - 170
-GET / 200 22.115 ms - 170
-GET / 304 19.164 ms - -
-GET /index 404 26.315 ms - 862
-GET /index.html 404 25.948 ms - 862
-GET / 304 15.308 ms - -
-GET / 304 18.208 ms - -
-
-> demo@0.0.0 start /app
-> node ./bin/www
-
-
-> demo@0.0.0 start /app
-> node ./bin/www
-
-
-> demo@0.0.0 start /app
-> node ./bin/www
-`
+      socket: null,
+      logs: ''
     };
   },
 
   components: {
     BaseBox
+  },
+  props: {
+    appName: {
+      type: String,
+      required: true
+    }
+  },
+  methods: {
+    logsReceived(logs) {
+      this.logs += logs;
+      console.log(logs);
+    }
+  },
+  mounted() {
+    this.socket = io(`${process.env.VUE_APP_BACKEND_URL}/logs`);
+    this.socket.emit('getLogs', {
+      userName: this.$store.state.user.userName,
+      appName: this.appName,
+      jwt: this.$store.state.auth.token
+    });
+    this.socket.on('logs', this.logsReceived);
   }
 };
 </script>

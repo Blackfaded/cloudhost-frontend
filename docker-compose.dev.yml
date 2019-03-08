@@ -11,7 +11,7 @@ services:
       - 'traefik.enable=true'
       - 'traefik.backend=cloudhost-frontend'
       - 'traefik.docker.network=traefik'
-      - 'traefik.frontend.rule=Host:cloudhost.localhost'
+      - 'traefik.frontend.rule=Host:cloudhost'
       - 'traefik.port=8080'
     command: npm run serve
     volumes:

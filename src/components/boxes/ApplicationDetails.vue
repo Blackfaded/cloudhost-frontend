@@ -6,43 +6,31 @@
       <table>
         <tbody>
           <tr>
-            <td>ID</td>
-            <td>1234</td>
-          </tr>
-          <tr>
             <td>Name</td>
-            <td>dgfddgfdfgdfg</td>
+            <td>{{ application.appName }}</td>
           </tr>
           <tr>
             <td>Available at</td>
-            <td>/hsrw.org/rene.heinen/dgfddgfdfgdfg/</td>
+            <td>
+              <a :href="applicationLink" target="_blank"> {{ applicationLink }}</a>
+            </td>
           </tr>
           <tr>
             <td>Repository Name</td>
-            <td>myTemplate</td>
+            <td>{{ application.repositoryName }}</td>
           </tr>
           <tr>
             <td>Repository Branch</td>
-            <td>master</td>
-          </tr>
-          <tr>
-            <td>Deployed Commit hash</td>
-            <td>9962b010</td>
+            <td>{{ application.repositoryBranch }}</td>
           </tr>
           <tr>
             <td>Created</td>
-            <td>2 months ago</td>
-          </tr>
-          <tr>
-            <td>Mongo Connection</td>
-            <td>Yes</td>
+            <td>{{ application.createdAt }}</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div slot="footer">
-      <application-switch :applicationName="application.appName"></application-switch>
-    </div>
+    <div slot="footer"><application-switch :application="application"></application-switch></div>
   </base-box>
 </template>
 
@@ -54,6 +42,17 @@ export default {
   components: {
     BaseBox,
     ApplicationSwitch
+  },
+  props: {
+    application: {
+      type: Object,
+      required: true
+    }
+  },
+  computed: {
+    applicationLink() {
+      return `${process.env.VUE_APP_DOMAIN}/${this.application.mountPath}/`;
+    }
   }
 };
 </script>

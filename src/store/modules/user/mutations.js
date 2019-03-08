@@ -10,6 +10,7 @@ export default {
   [SET_USER](state, data) {
     state.email = data.email;
     state.name = data.name;
+    state.userName = data.userName;
     state.roles = data.roles;
     state.profilePictureUrl = data.profilePictureUrl;
   },

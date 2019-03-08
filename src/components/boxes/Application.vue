@@ -3,7 +3,9 @@
     <div slot="header" class="header">
       <a :href="applicationLink" target="_blank">{{ application.appName }}</a>
       <div class="icons">
-        <router-link to="/node/1234"> <font-awesome-icon icon="cogs" /> </router-link>
+        <router-link :to="`/node/${application.appName}`">
+          <font-awesome-icon icon="cogs" />
+        </router-link>
       </div>
     </div>
     <div slot="body">
@@ -11,11 +13,7 @@
       <div>Branch: {{ application.repositoryBranch }}</div>
     </div>
     <div slot="footer" class="footer">
-      <application-switch
-        @change="stateChange"
-        :running="running"
-        :pending="pending"
-      ></application-switch>
+      <application-switch :application="application"></application-switch>
     </div>
   </base-box>
 </template>
@@ -35,33 +33,8 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      pending: false,
-      running: this.application.autostart
-    };
-  },
 
-  methods: {
-    async stateChange({ value }) {
-      const oldValue = !value;
-      this.running = value;
-      this.pending = true;
-      try {
-        await this.$axios.post(
-          `${process.env.VUE_APP_BACKEND_URL}api/v1/applications/${this.application.appName}/${
-            value ? 'start' : 'stop'
-          }`
-        );
-      } catch (error) {
-        this.running = oldValue;
-        console.log({ error });
-      }
-
-      console.log(this.running);
-      this.pending = false;
-    }
-  },
+  methods: {},
   computed: {
     applicationLink() {
       return `${process.env.VUE_APP_DOMAIN}/${this.application.mountPath}/`;

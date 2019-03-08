@@ -50,11 +50,11 @@ export default {
   },
   async mounted() {
     const { data: applications } = await this.$axios.get(
-      `${process.env.VUE_APP_BACKEND_URL}api/v1/applications`
+      `${process.env.VUE_APP_BACKEND_URL}/applications`
     );
     this.applications = applications;
     const { data } = await this.$axios.get(
-      `${process.env.VUE_APP_BACKEND_URL}api/v1/users/${this.$store.state.user.email}/projects`
+      `${process.env.VUE_APP_BACKEND_URL}/users/${this.$store.state.user.email}/projects`
     );
     this.repositories = data;
     this.loadingRepositories = false;
