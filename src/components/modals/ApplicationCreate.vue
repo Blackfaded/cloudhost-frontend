@@ -62,10 +62,6 @@
         </template>
 
         <spinner v-if="loadingRequest" class="spinner"></spinner>
-
-        <hr />
-        <div>Additional Features</div>
-        <b-form-checkbox v-model="needsMongo">Attach Mongo DB</b-form-checkbox>
       </template>
     </template>
     <template v-else slot="body">
@@ -127,7 +123,6 @@ export default {
   data() {
     return {
       needsBuildScript: false,
-      needsMongo: false,
       selectedRepository: null,
       selectedBranch: null,
       selectedRunScript: null,
@@ -162,7 +157,7 @@ export default {
     };
   },
   mounted() {
-    this.socket = io(`${process.env.VUE_APP_BACKEND_URL}/test`);
+    this.socket = io(`${process.env.VUE_APP_BACKEND_URL}/applicationCreate`);
     this.socket.on('repoDownloadProgress', this.downloadProgress);
     this.socket.on('startBuildImage', this.startBuildImage);
     this.socket.on('finishBuildImage', this.finishBuildImage);
@@ -236,6 +231,7 @@ export default {
             closeOnClick: false,
             backdrop: 0.3,
             bodyMaxLength: 250,
+            titleMaxLength: 30,
             buttons: [
               {
                 text: 'Yes',
@@ -260,8 +256,7 @@ export default {
           repositoryId: this.selectedRepository.id,
           branchName: this.selectedBranch.name,
           runScript: this.selectedRunScript,
-          appName: this.appName,
-          needsMongo: this.needsMongo
+          appName: this.appName
         };
         if (this.needsBuildScript) {
           options.buildScript = this.selectedBuildScript;
@@ -277,7 +272,6 @@ export default {
         if (error.response && error.response.data && error.response.data.message) {
           this.$snotify.error(error.response.data.message, error.response.data.error);
         }
-        console.log({ error });
       }
     },
     async repositoryChange(repo) {

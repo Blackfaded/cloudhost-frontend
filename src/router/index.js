@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Auth from '../views/Login';
 import Dashboard from '../views/Dashboard';
+import Mongo from '../views/Mongo';
 import Nodejs from '../views/Nodejs';
 import NodejsApplication from '../views/NodejsApplication';
 import Admin from '../views/admin';
@@ -29,6 +30,15 @@ const router = new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
+      meta: {
+        layout: 'default',
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/mongo',
+      name: 'mongo',
+      component: Mongo,
       meta: {
         layout: 'default',
         requiresAuth: true

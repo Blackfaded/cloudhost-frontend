@@ -50,9 +50,8 @@ export default {
         },
         {
           name: 'MongoDB',
-          to: `/mongo/${this.$store.state.user.userName}`,
-          icon: { prefix: 'fas', name: 'database' },
-          external: true
+          to: '/mongo',
+          icon: { prefix: 'fas', name: 'database' }
         },
         {
           name: 'GitLab',

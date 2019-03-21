@@ -39,11 +39,13 @@ export default {
   mounted() {
     this.socket = io(`${process.env.VUE_APP_BACKEND_URL}/logs`);
     this.socket.emit('getLogs', {
-      userName: this.$store.state.user.userName,
       appName: this.appName,
-      jwt: this.$store.state.auth.token
+      token: this.$store.state.user.auth.token
     });
     this.socket.on('logs', this.logsReceived);
+  },
+  beforeDestroy() {
+    this.socket.disconnect();
   }
 };
 </script>
