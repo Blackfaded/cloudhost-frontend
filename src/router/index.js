@@ -5,6 +5,7 @@ import Dashboard from '../views/Dashboard';
 import Mongo from '../views/Mongo';
 import Nodejs from '../views/Nodejs';
 import NodejsApplication from '../views/NodejsApplication';
+import Help from '../views/Help';
 import Admin from '../views/admin';
 import AdminUsers from '../views/admin/Users';
 import AdminUserEdit from '../views/admin/UserEdit';
@@ -30,6 +31,15 @@ const router = new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
+      meta: {
+        layout: 'default',
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/help',
+      name: 'help',
+      component: Help,
       meta: {
         layout: 'default',
         requiresAuth: true

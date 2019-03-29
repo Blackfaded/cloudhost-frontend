@@ -25,12 +25,15 @@
           </tr>
           <tr>
             <td>Created</td>
-            <td>{{ application.createdAt }}</td>
+            <td>{{ formattedDate }}</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div slot="footer"><application-switch :application="application"></application-switch></div>
+    <div slot="footer">
+      <application-switch :application="application"> </application-switch>
+      <button @click="checkApplicationCreate">recreate</button>
+    </div>
   </base-box>
 </template>
 
@@ -47,11 +50,20 @@ export default {
     application: {
       type: Object,
       required: true
+    },
+    checkApplicationCreate: {
+      type: Function,
+      required: true
     }
   },
   computed: {
     applicationLink() {
       return `${process.env.VUE_APP_DOMAIN}/${this.application.mountPath}/`;
+    },
+    formattedDate() {
+      return `${new Date(this.application.createdAt).toLocaleDateString()} - ${new Date(
+        this.application.createdAt
+      ).toLocaleTimeString()}`;
     }
   }
 };

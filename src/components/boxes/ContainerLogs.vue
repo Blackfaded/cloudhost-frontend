@@ -14,38 +14,46 @@ import io from 'socket.io-client';
 import BaseBox from './BaseBox';
 
 export default {
+  components: {
+    BaseBox
+  },
+  props: {
+    application: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       socket: null,
       logs: ''
     };
   },
-
-  components: {
-    BaseBox
-  },
-  props: {
-    appName: {
-      type: String,
-      required: true
-    }
-  },
   methods: {
     logsReceived(logs) {
       this.logs += logs;
-      console.log(logs);
+    },
+    connetSocket() {
+      this.logs = '';
+      this.socket = io(`${process.env.VUE_APP_BACKEND_URL}/logs`);
+      this.socket.emit('getLogs', {
+        appName: this.application.appName,
+        token: this.$store.state.user.auth.token
+      });
+      this.socket.on('logs', this.logsReceived);
     }
   },
   mounted() {
-    this.socket = io(`${process.env.VUE_APP_BACKEND_URL}/logs`);
-    this.socket.emit('getLogs', {
-      appName: this.appName,
-      token: this.$store.state.user.auth.token
-    });
-    this.socket.on('logs', this.logsReceived);
+    this.connetSocket();
   },
   beforeDestroy() {
     this.socket.disconnect();
+  },
+  watch: {
+    application() {
+      this.socket.disconnect();
+      this.connetSocket();
+    }
   }
 };
 </script>

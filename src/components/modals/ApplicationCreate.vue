@@ -64,34 +64,16 @@
         <spinner v-if="loadingRequest" class="spinner"></spinner>
       </template>
     </template>
-    <template v-else slot="body">
-      <div class="bars">
-        <div class="bar" v-for="(bar, barName, index) in shownProgressBars" :key="index">
-          <span class="step"> Step {{ index + 1 }}/{{ Object.keys(progressBars).length }} </span>
-          <progress-bar
-            :noProgress="bar.noProgress"
-            :progress="bar.progress"
-            :finished="bar.finished"
-            :started="bar.started"
-          >
-            <div>{{ bar.text }}</div>
-          </progress-bar>
-        </div>
-      </div>
-    </template>
 
-    <div slot="footer" class="footer">
-      <template v-if="!isApplicationCreating">
-        <base-button variant="danger" @click="close">Cancel</base-button>
-        <base-button
-          variant="primary"
-          :disabled="isCreateApplicationButtonDisabled"
-          @click="checkApplicationCreate"
-          >Create Application</base-button
-        >
-      </template>
-      <base-button v-else :disabled="!applicationCreated" @click="close" variant="primary"
-        >Done</base-button
+    <progress-bars v-else slot="body" :socket="socket"></progress-bars>
+
+    <div v-if="!isApplicationCreating" slot="footer" class="footer">
+      <base-button variant="danger" @click="close">Cancel</base-button>
+      <base-button
+        variant="primary"
+        :disabled="isCreateApplicationButtonDisabled"
+        @click="checkApplicationCreate"
+        >Create Application</base-button
       >
     </div>
   </base-modal>
@@ -99,16 +81,17 @@
 
 <script>
 import io from 'socket.io-client';
+
 import BaseModal from './BaseModal';
 import Spinner from '@/components/loader/Spinner';
-import ProgressBar from '@/components/loader/Progressbar';
-import EventBus from '@/bus';
+import ProgressBars from '@/components/application/ProgressBars';
+import createApplicationMixin from '@/mixins/createApplication';
 
 export default {
   components: {
     BaseModal,
     Spinner,
-    ProgressBar
+    ProgressBars
   },
   props: {
     repositories: {
@@ -120,6 +103,7 @@ export default {
       required: true
     }
   },
+  mixins: [createApplicationMixin],
   data() {
     return {
       needsBuildScript: false,
@@ -131,53 +115,13 @@ export default {
       runScripts: [],
       loadingRequest: false,
       appName: '',
-      socket: null,
-      applicationCreated: false,
-      isApplicationCreating: false,
-      applicationCreateLogs: '',
-      progressBars: {
-        pullingRepo: {
-          text: 'downloading git repository',
-          started: true,
-          progress: 0
-        },
-        buildingImage: {
-          text: 'building your application',
-          noProgress: true,
-          started: false,
-          finished: false
-        },
-        startingApp: {
-          text: 'starting your application',
-          noProgress: true,
-          started: false,
-          finished: false
-        }
-      }
+      isApplicationCreating: false
     };
   },
   mounted() {
-    this.socket = io(`${process.env.VUE_APP_BACKEND_URL}/applicationCreate`);
-    this.socket.on('repoDownloadProgress', this.downloadProgress);
-    this.socket.on('startBuildImage', this.startBuildImage);
-    this.socket.on('finishBuildImage', this.finishBuildImage);
-    this.socket.on('beginStartApplication', this.beginStartApplication);
-    this.socket.on('finishStartApplication', this.finishStartApplication);
-    console.log(this.socket);
-  },
-  beforeDestroy() {
-    this.socket.close();
+    this.socket = io(`${process.env.VUE_APP_BACKEND_URL}`);
   },
   computed: {
-    shownProgressBars() {
-      const bars = {};
-      Object.keys(this.progressBars).forEach(bar => {
-        if (this.progressBars[bar].started) {
-          bars[bar] = this.progressBars[bar];
-        }
-      });
-      return bars;
-    },
     username() {
       return this.$store.state.user.email.split('@')[0];
     },
@@ -189,24 +133,6 @@ export default {
     }
   },
   methods: {
-    downloadProgress({ progress }) {
-      this.progressBars.pullingRepo.progress = progress;
-    },
-    startBuildImage() {
-      this.progressBars.buildingImage.started = true;
-    },
-    finishBuildImage() {
-      this.progressBars.buildingImage.finished = true;
-    },
-    beginStartApplication() {
-      this.progressBars.startingApp.started = true;
-    },
-    finishStartApplication() {
-      this.progressBars.startingApp.finished = true;
-    },
-    close() {
-      this.$emit('close');
-    },
     reset() {
       this.branches = [];
       this.runScripts = [];
@@ -221,52 +147,31 @@ export default {
     },
     async checkApplicationCreate() {
       if (await this.doesApplicationAlreadyExist()) {
-        this.$snotify.confirm(
-          'You already have an application under this path. ' +
-            'If you click on "Yes" your old application gets removed ' +
-            'and your new one is available under this path. ' +
-            'Do you want to delete your old application?',
-          'Delete old application?',
+        this.$snotify.error(
+          'You already have an application under this path.',
+          "Can't create application",
           {
-            closeOnClick: false,
-            backdrop: 0.3,
             bodyMaxLength: 250,
-            titleMaxLength: 30,
-            buttons: [
-              {
-                text: 'Yes',
-                action: toast => {
-                  this.$snotify.remove(toast.id);
-                  this.createApplication();
-                }
-              },
-              { text: 'No', action: toast => this.$snotify.remove(toast.id) }
-            ]
+            titleMaxLength: 30
           }
         );
       } else {
-        this.createApplication();
+        this.createApplicationProcess();
       }
     },
-    async createApplication() {
+    async createApplicationProcess() {
       try {
         this.isApplicationCreating = true;
-        const options = {
+        await this.createApplication({
           repositoryName: this.selectedRepository.path,
           repositoryId: this.selectedRepository.id,
-          branchName: this.selectedBranch.name,
+          repositoryBranch: this.selectedBranch.name,
           runScript: this.selectedRunScript,
-          appName: this.appName
-        };
-        if (this.needsBuildScript) {
-          options.buildScript = this.selectedBuildScript;
-        }
-        const { data: application } = await this.$axios.post(
-          `${process.env.VUE_APP_BACKEND_URL}/applications`,
-          options
-        );
-        this.applicationCreated = true;
-        EventBus.$emit('applicationCreated', application);
+          appName: this.appName,
+          buildScript: this.selectedBuildScript,
+          socketId: this.socketId
+        });
+        this.close();
       } catch (error) {
         this.isApplicationCreating = false;
         if (error.response && error.response.data && error.response.data.message) {
@@ -296,6 +201,9 @@ export default {
       );
       this.runScripts = data;
       this.loadingRequest = false;
+    },
+    close() {
+      this.$emit('close');
     }
   }
 };
@@ -313,16 +221,6 @@ export default {
     align-items: center;
     button {
       margin-left: 10px;
-    }
-  }
-}
-.bars {
-  .bar {
-    display: flex;
-    margin: 20px 0;
-    .step {
-      white-space: nowrap;
-      margin-right: 10px;
     }
   }
 }
