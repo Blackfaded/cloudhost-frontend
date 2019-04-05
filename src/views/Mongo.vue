@@ -1,7 +1,13 @@
 <template>
-  <div>
+  <b-container fluid>
     <template v-if="!mongoConnectionString">
-      <base-button @click="createDatabase">Create Database</base-button>
+      <div class="text">
+        To use a database you must first create one. After creation you get all the information
+        needed to connect to your database.
+      </div>
+
+      <base-button v-if="!creatingDatabase" @click="createDatabase"> Create Database </base-button>
+      <base-button v-else disabled> Creating Database... </base-button>
     </template>
 
     <template v-else>
@@ -13,6 +19,10 @@
           <code>{{ mongoConnectionString }}</code>
           <h5>Example:</h5>
           <code>{{ `mongodb://${mongoConnectionString}/test` }}</code> <br />
+          <p>
+            In this example you would connect to a collection named <code>test</code>. To create a
+            new collection just name it after the last <code>/</code>.
+          </p>
         </template>
 
         <a
@@ -21,7 +31,7 @@
           slot="footer"
           class="footer"
         >
-          <base-button>Graphical UI</base-button>
+          <base-button :disabled="deletingDatabase">Graphical UI</base-button>
         </a>
       </base-box>
 
@@ -29,12 +39,16 @@
 
       <base-box>
         <h3 slot="header">Danger Zone</h3>
-        <base-button slot="body" variant="danger" @click="deleteConfirm"
+        <base-button
+          slot="body"
+          variant="danger"
+          @click="deleteConfirm"
+          :disabled="deletingDatabase"
           >Delete Database</base-button
         >
       </base-box>
     </template>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -48,6 +62,8 @@ export default {
   },
   data() {
     return {
+      creatingDatabase: false,
+      deletingDatabase: false,
       mongoConnectionString: ''
     };
   },
@@ -65,15 +81,19 @@ export default {
       }
     },
     async createDatabase() {
+      this.creatingDatabase = true;
       const {
         data: { connectionString }
       } = await this.$axios.post(`${process.env.VUE_APP_BACKEND_URL}/database`);
+      this.creatingDatabase = false;
       this.mongoConnectionString = connectionString;
     },
     async deleteDatabase() {
+      this.deletingDatabase = true;
       const {
         data: { connectionString }
       } = await this.$axios.delete(`${process.env.VUE_APP_BACKEND_URL}/database`);
+      this.deletingDatabase = false;
       this.mongoConnectionString = connectionString;
     },
     deleteConfirm() {
@@ -107,6 +127,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.text {
+  margin-bottom: 20px;
+}
 .footer {
   button {
     margin: 20px 0;

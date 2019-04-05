@@ -13,7 +13,7 @@
     }"
     :width="100"
     :height="30"
-    :disabled="pending"
+    :disabled="pending || disabled"
     @change="change"
   />
 </template>
@@ -29,6 +29,9 @@ export default {
     application: {
       type: Object,
       required: true
+    },
+    disabled: {
+      type: Boolean
     }
   },
   data() {

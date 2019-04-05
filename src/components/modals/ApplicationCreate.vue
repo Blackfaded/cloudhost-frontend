@@ -3,7 +3,6 @@
     <h3 slot="header">Create Application</h3>
 
     <template v-if="!isApplicationCreating" slot="body">
-      <h4>Base Configuration</h4>
       <spinner v-if="loading" class="spinner"></spinner>
       <div v-else-if="!repositories.length">
         You do not have any repositories on <a href="https://git.hsrw.eu">git.hsrw.eu</a>
@@ -134,7 +133,6 @@ export default {
   },
   methods: {
     reset() {
-      this.branches = [];
       this.runScripts = [];
       this.selectedBranch = null;
       this.selectedRunScript = null;
@@ -187,6 +185,9 @@ export default {
         `${process.env.VUE_APP_BACKEND_URL}/repositories/${this.selectedRepository.id}/branches`
       );
       this.branches = data;
+      this.runScripts = [];
+      this.needsBuildScript = false;
+      this.selectedBuildScript = null;
       this.loadingRequest = false;
     },
     async branchChange(branch) {

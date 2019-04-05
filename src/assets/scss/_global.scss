@@ -3,3 +3,7 @@
 @import './animations';
 @import './themes/default';
 @import './themes/bright';
+
+hr {
+  border-color: var(--text);
+}

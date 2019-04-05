@@ -1,5 +1,5 @@
 <template>
-  <div class="lds-roller">
+  <div class="lds-roller" :style="style">
     <div></div>
     <div></div>
     <div></div>
@@ -10,6 +10,24 @@
     <div></div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    scale: {
+      type: Number,
+      default: 1
+    }
+  },
+  computed: {
+    style() {
+      return {
+        transform: `scale(${this.scale})`
+      };
+    }
+  }
+};
+</script>
 
 <style scoped>
 .lds-roller {

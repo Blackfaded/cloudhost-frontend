@@ -31,8 +31,14 @@
       </table>
     </div>
     <div slot="footer">
-      <application-switch :application="application"> </application-switch>
-      <button @click="checkApplicationCreate">recreate</button>
+      <application-switch :disabled="isApplicationDeleting" :application="application">
+      </application-switch>
+      <base-button
+        class="recreateButton"
+        :disabled="isApplicationDeleting"
+        @click="checkApplicationCreate"
+        >recreate</base-button
+      >
     </div>
   </base-box>
 </template>
@@ -40,11 +46,13 @@
 <script>
 import ApplicationSwitch from '@/components/switches/ApplicationSwitch';
 import BaseBox from './BaseBox';
+import BaseButton from '@/components/buttons/BaseButton';
 
 export default {
   components: {
     BaseBox,
-    ApplicationSwitch
+    ApplicationSwitch,
+    BaseButton
   },
   props: {
     application: {
@@ -54,6 +62,9 @@ export default {
     checkApplicationCreate: {
       type: Function,
       required: true
+    },
+    isApplicationDeleting: {
+      type: Boolean
     }
   },
   computed: {
@@ -71,6 +82,9 @@ export default {
 
 <style lang="scss" scoped>
 .applicationDetails {
+  .recreateButton {
+    margin-left: 20px;
+  }
   table {
     border-collapse: separate;
     border-spacing: 20px 0;

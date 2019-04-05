@@ -84,9 +84,6 @@ export default {
     this.socket.on('finishBuildImage', this.finishBuildImage);
     this.socket.on('beginStartApplication', this.beginStartApplication);
     this.socket.on('finishStartApplication', this.finishStartApplication);
-  },
-  beforeDestroy() {
-    this.socket.destroy();
   }
 };
 </script>

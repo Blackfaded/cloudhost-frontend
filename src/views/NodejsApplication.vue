@@ -6,6 +6,7 @@
         <application-details
           :application="application"
           :checkApplicationCreate="checkApplicationCreate"
+          :isApplicationDeleting="isApplicationDeleting"
         ></application-details>
       </b-col>
     </b-row>
@@ -16,7 +17,11 @@
       <b-col cols="12">
         <base-box>
           <h3 slot="header">Danger Zone</h3>
-          <base-button @click="applicationConfirm" variant="danger" slot="body"
+          <base-button
+            @click="applicationConfirm"
+            variant="danger"
+            slot="body"
+            :disabled="isApplicationDeleting"
             >Delete Application</base-button
           >
         </base-box>
@@ -39,7 +44,8 @@ export default {
       application: null,
       isApplicationCreating: false,
       logs: '',
-      socket: null
+      socket: null,
+      isApplicationDeleting: false
     };
   },
   mixins: [createApplicationMixin],
@@ -107,11 +113,13 @@ export default {
     },
     async deleteApplication() {
       try {
+        this.isApplicationDeleting = true;
         await this.$axios.delete(
           `${process.env.VUE_APP_BACKEND_URL}/applications/${this.$route.params.id}`
         );
         this.$router.push('/node');
       } catch (error) {
+        this.isApplicationDeleting = false;
         if (error.response && error.response.data && error.response.data.message) {
           this.$snotify.error(error.response.data.message, error.response.data.error);
         }
@@ -124,6 +132,9 @@ export default {
     );
     this.application = application;
     this.socket = io(`${process.env.VUE_APP_BACKEND_URL}`);
+  },
+  beforeDestroy() {
+    this.socket.destroy();
   }
 };
 </script>
