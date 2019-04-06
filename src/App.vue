@@ -16,7 +16,6 @@ export default {
   computed: {
     layout() {
       const { layout } = this.$route.meta;
-      console.log(this.$route);
       return layout ? `${layout}-layout` : 'div';
     }
   },

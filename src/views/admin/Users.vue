@@ -44,13 +44,18 @@ export default {
       });
     },
     async updateUserData({ user, key, value }) {
-      const { data: updatedUser } = await this.$axios.patch(`users/${user}`, {
-        [key]: value
-      });
-      this.replaceUserinList(updatedUser);
+      try {
+        const { data: updatedUser } = await this.$axios.patch(`users/${user}`, {
+          [key]: value
+        });
+        this.replaceUserinList(updatedUser);
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          this.$snotify.error(error.response.data.message, error.response.data.error);
+        }
+      }
     },
     toggleRole({ user, role, flag }) {
-      console.log(user, role, flag);
       if (!flag) {
         this.deleteRole(user, role);
       } else {
@@ -63,7 +68,6 @@ export default {
         this.replaceUserinList(updatedUser);
       } catch (error) {
         if (error.response && error.response.data && error.response.data.message) {
-          console.log(this.$snotify);
           this.$snotify.error(error.response.data.message, error.response.data.error);
         }
       }
@@ -80,14 +84,13 @@ export default {
       return this.users.map(user => ({
         email: user.email,
         active: user.active,
-        admin: user.roles.some(role => role.name === 'admin')
+        admin: user.roles.some(role => role === 'admin')
       }));
     }
   },
   async mounted() {
     const { data } = await this.$axios.get('users');
     this.users = data;
-    console.log('df');
   }
 };
 </script>

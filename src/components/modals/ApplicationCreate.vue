@@ -19,7 +19,7 @@
           <div>Select a branch</div>
           <b-form-select :value="selectedBranch" @change="branchChange" class="mb-3">
             <option v-for="(branch, index) in branches" :key="index" :value="branch">{{
-              branch.name
+              branch
             }}</option>
           </b-form-select>
         </template>
@@ -163,11 +163,11 @@ export default {
         await this.createApplication({
           repositoryName: this.selectedRepository.path,
           repositoryId: this.selectedRepository.id,
-          repositoryBranch: this.selectedBranch.name,
+          repositoryBranch: this.selectedBranch,
           runScript: this.selectedRunScript,
           appName: this.appName,
           buildScript: this.selectedBuildScript,
-          socketId: this.socketId
+          socketId: this.socket.id
         });
         this.close();
       } catch (error) {
@@ -197,7 +197,7 @@ export default {
       this.selectedRunScript = null;
       const { data } = await this.$axios.get(
         `${process.env.VUE_APP_BACKEND_URL}/repositories/${this.selectedRepository.id}/branches/${
-          this.selectedBranch.name
+          this.selectedBranch
         }/runScripts`
       );
       this.runScripts = data;

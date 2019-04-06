@@ -90,7 +90,7 @@ export default {
         "app.use('/', express.static(path.join(__dirname, './dist')));\n" +
         'const server = http.createServer(app);;\n' +
         "server.listen('8080');\n" +
-        " console.log('Server started');\n",
+        "console.log('Server started');\n",
 
       pjExample:
         '"scripts": {\n' +

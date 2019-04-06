@@ -53,7 +53,6 @@ export default {
         );
       } catch (error) {
         this.running = oldValue;
-        console.log({ error });
       }
 
       this.pending = false;
