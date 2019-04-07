@@ -14,7 +14,11 @@
       <template v-if="checkRole('admin')">
         <li class="administration"><span v-if="!collapsed">Administration</span></li>
         <li v-for="(link, index) in adminLinks" :key="`${index}-admin`">
-          <router-link :to="link.to" :class="{ disabled: checkDisabled(link) }">
+          <a :href="link.to" v-if="isLinkExternal(link)" target="_blank">
+            <font-awesome-icon :icon="[link.icon.prefix, link.icon.name]" />
+            <span class="listText" :class="{ collapsed: collapsed }">{{ link.name }}</span>
+          </a>
+          <router-link v-else :to="link.to" :class="{ disabled: checkDisabled(link) }">
             <font-awesome-icon :icon="[link.icon.prefix, link.icon.name]" />
             <span class="listText" :class="{ collapsed: collapsed }">{{ link.name }}</span>
           </router-link>
@@ -70,6 +74,12 @@ export default {
           name: 'Users',
           to: '/admin/users',
           icon: { prefix: 'fas', name: 'user' }
+        },
+        {
+          name: 'Docs',
+          to: `${process.env.VUE_APP_BACKEND_URL}/docs`,
+          icon: { prefix: 'fas', name: 'file-alt' },
+          external: true
         }
       ]
     };

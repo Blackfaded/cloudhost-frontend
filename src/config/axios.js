@@ -1,5 +1,5 @@
 import axios from 'axios';
-import store from '@/store';
+import * as Cookies from 'js-cookie';
 
 const instance = axios.create({
   baseURL: `${process.env.VUE_APP_BACKEND_URL}`
@@ -7,8 +7,9 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   config => {
-    if (store.state.user.auth.token) {
-      config.headers.authorization = `Bearer ${store.state.user.auth.token}`;
+    const jwt = Cookies.get('jwt');
+    if (jwt) {
+      config.withCredentials = true;
     }
 
     return config;

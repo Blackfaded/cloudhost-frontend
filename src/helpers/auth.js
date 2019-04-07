@@ -1,6 +1,5 @@
-import store from '@/store';
-
+import * as Cookies from 'js-cookie';
 // eslint-disable-next-line
 export function isLoggedIn() {
-  return store.state.user.auth.token;
+  return !!Cookies.get('jwt');
 }

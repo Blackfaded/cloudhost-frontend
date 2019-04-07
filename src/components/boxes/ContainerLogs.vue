@@ -10,6 +10,7 @@
 
 <script>
 import io from 'socket.io-client';
+import * as Cookies from 'js-cookie';
 
 import BaseBox from './BaseBox';
 
@@ -38,7 +39,7 @@ export default {
       this.socket = io(`${process.env.VUE_APP_BACKEND_URL}/logs`);
       this.socket.emit('getLogs', {
         appName: this.application.appName,
-        token: this.$store.state.user.auth.token
+        token: Cookies.get('jwt')
       });
       this.socket.on('logs', this.logsReceived);
     }

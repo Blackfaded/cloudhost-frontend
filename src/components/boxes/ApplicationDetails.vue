@@ -34,6 +34,8 @@
       <application-switch :disabled="isApplicationDeleting" :application="application">
       </application-switch>
       <base-button
+        v-b-tooltip.hover
+        title="Your app gets recreated from the newest commit on that given repository and branch."
         class="recreateButton"
         :disabled="isApplicationDeleting"
         @click="checkApplicationCreate"
