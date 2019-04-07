@@ -124,4 +124,9 @@ router.beforeEach((to, from, next) => {
   }
 });
 
+const { pathname } = window.location;
+if (isLoggedIn() && (pathname === '/' || pathname === '/auth')) {
+  router.push('/dashboard');
+}
+
 export default router;
