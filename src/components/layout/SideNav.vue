@@ -71,14 +71,20 @@ export default {
       ],
       adminLinks: [
         {
-          name: 'Users',
+          name: ' Users',
           to: '/admin/users',
           icon: { prefix: 'fas', name: 'user' }
         },
         {
-          name: 'Docs',
+          name: '  Docs',
           to: `${process.env.VUE_APP_BACKEND_URL}/docs`,
           icon: { prefix: 'fas', name: 'file-alt' },
+          external: true
+        },
+        {
+          name: 'Portainer',
+          to: `${process.env.VUE_APP_DOMAIN}/portainer/`,
+          icon: { prefix: 'fab', name: 'docker' },
           external: true
         }
       ]

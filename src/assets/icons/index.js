@@ -19,7 +19,7 @@ import {
   faFileAlt
 } from '@fortawesome/free-solid-svg-icons';
 
-import { faNodeJs, faGitlab } from '@fortawesome/free-brands-svg-icons';
+import { faNodeJs, faGitlab, faDocker } from '@fortawesome/free-brands-svg-icons';
 
 library.add([
   faLock,
@@ -40,5 +40,6 @@ library.add([
   faUser,
   faSun,
   faMoon,
-  faFileAlt
+  faFileAlt,
+  faDocker
 ]);
