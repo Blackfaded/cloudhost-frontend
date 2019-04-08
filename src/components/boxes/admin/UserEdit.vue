@@ -1,38 +1,45 @@
 <template>
   <base-box class="userEdit">
-    <h5 slot="header">Edit User test@test.de</h5>
+    <h5 slot="header">Details for user {{ user.email }}</h5>
 
     <div slot="body">
       <table>
         <tbody>
           <tr>
-            <td>ID</td>
-            <td><b-form-input value="1234"></b-form-input></td>
-          </tr>
-          <tr>
             <td>Gitlab ID</td>
-            <td><b-form-input value="5"></b-form-input></td>
+            <td>{{ user.gitlabId }}</td>
           </tr>
           <tr>
             <td>E-Mail</td>
-            <td><b-form-input value="test@test.de"></b-form-input></td>
+            <td>{{ user.email }}</td>
+          </tr>
+          <tr>
+            <td>Username</td>
+            <td>{{ user.username }}</td>
+          </tr>
+          <tr>
+            <td>Has Mongo DB</td>
+            <td><b-form-checkbox v-model="user.hasMongoDB" disabled></b-form-checkbox></td>
           </tr>
           <tr>
             <td>Active</td>
-            <td><b-form-checkbox :value="true"></b-form-checkbox></td>
+            <td><b-form-checkbox v-model="user.active" disabled></b-form-checkbox></td>
           </tr>
           <tr>
             <td>Admin</td>
-            <td><b-form-checkbox :value="true"></b-form-checkbox></td>
+            <td><b-form-checkbox v-model="isAdmin" disabled></b-form-checkbox></td>
           </tr>
           <tr>
             <td>Created at</td>
-            <td>2018-09-19T14:43:56.277Z</td>
+            <td>{{ formatDate(user.createdAt) }}</td>
+          </tr>
+          <tr>
+            <td>Last Login</td>
+            <td>{{ formatDate(user.lastLogin) }}</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div slot="footer"><base-button variant="primary">Update User</base-button></div>
   </base-box>
 </template>
 
@@ -42,6 +49,29 @@ import BaseBox from '@/components/boxes/BaseBox';
 export default {
   components: {
     BaseBox
+  },
+  props: {
+    user: {
+      type: Object,
+      required: true
+    },
+    update: {
+      type: Function,
+      required: true
+    }
+  },
+  computed: {
+    isAdmin: {
+      get() {
+        return this.user.roles.some(role => role === 'admin');
+      },
+      set() {}
+    }
+  },
+  methods: {
+    formatDate(date) {
+      return `${new Date(date).toDateString()} - ${new Date(date).toTimeString()}`;
+    }
   }
 };
 </script>

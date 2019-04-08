@@ -1,32 +1,38 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col cols="12"> <user-edit></user-edit> </b-col>
-    </b-row>
-    <hr />
-    <h2>Applications (4)</h2>
-    <b-row>
-      <b-col sm="4"> <application-box></application-box> </b-col>
-      <b-col sm="4"> <application-box></application-box> </b-col>
-      <b-col sm="4"> <application-box></application-box> </b-col>
-      <b-col sm="4"> <application-box></application-box> </b-col>
+      <b-col cols="12"> <user-edit v-if="user" :user="user" :update="update"></user-edit> </b-col>
     </b-row>
   </b-container>
 </template>
 <script>
 import UserEdit from '@/components/boxes/admin/UserEdit';
-import ApplicationBox from '@/components/boxes/Application';
 
 export default {
   components: {
-    UserEdit,
-    ApplicationBox
+    UserEdit
   },
   data() {
-    return {};
+    return {
+      user: null
+    };
   },
-  computed: {},
-  methods: {}
+  computed: {
+    userName() {
+      return this.$route.params.id;
+    }
+  },
+  methods: {
+    async update(updateData) {
+      const { data: user } = await this.$axios.patch(`/users/${this.userName}`, updateData);
+      this.user = user;
+    }
+  },
+  async mounted() {
+    const { data: user } = await this.$axios.get(`/users/${this.userName}`);
+    this.user = user;
+    console.log(this.user);
+  }
 };
 </script>
 
