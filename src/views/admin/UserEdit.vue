@@ -31,7 +31,6 @@ export default {
   async mounted() {
     const { data: user } = await this.$axios.get(`/users/${this.userName}`);
     this.user = user;
-    console.log(this.user);
   }
 };
 </script>
