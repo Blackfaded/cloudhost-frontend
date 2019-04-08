@@ -76,8 +76,14 @@ export default {
           icon: { prefix: 'fas', name: 'user' }
         },
         {
-          name: '  Docs',
-          to: `${process.env.VUE_APP_BACKEND_URL}/docs`,
+          name: 'API Docs',
+          to: `${process.env.VUE_APP_BACKEND_URL}/docs/api`,
+          icon: { prefix: 'fas', name: 'network-wired' },
+          external: true
+        },
+        {
+          name: '  Controller Docs',
+          to: `${process.env.VUE_APP_BACKEND_URL}/docs/controller`,
           icon: { prefix: 'fas', name: 'file-alt' },
           external: true
         },

@@ -66,6 +66,9 @@ export default {
       this.progressBars.pullingRepo.progress = progress;
     },
     startBuildImage() {
+      // if downloadsize was to small the progress wint get tracked
+      // so set it manually to 100%
+      this.progressBars.pullingRepo.progress = 100;
       this.progressBars.buildingImage.started = true;
     },
     finishBuildImage() {

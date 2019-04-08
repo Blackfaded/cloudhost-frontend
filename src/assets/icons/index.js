@@ -16,7 +16,8 @@ import {
   faUser,
   faSun,
   faMoon,
-  faFileAlt
+  faFileAlt,
+  faNetworkWired
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faNodeJs, faGitlab, faDocker } from '@fortawesome/free-brands-svg-icons';
@@ -41,5 +42,6 @@ library.add([
   faSun,
   faMoon,
   faFileAlt,
-  faDocker
+  faDocker,
+  faNetworkWired
 ]);
