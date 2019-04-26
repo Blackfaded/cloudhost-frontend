@@ -1,11 +1,9 @@
-FROM node:10 as modules
+FROM node:10 as build
 WORKDIR /usr/app/frontend
 COPY package*.json ./
 RUN npm i
-
-FROM modules as build
 COPY . .
-RUN npm run build:production
+RUN npm run build:staging
 
 FROM nginx:latest as prod
 COPY --from=build /usr/app/frontend/dist /usr/share/nginx/html

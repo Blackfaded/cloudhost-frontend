@@ -1,13 +1,15 @@
 version: '3.5'
 services:
   frontend:
-    build: .
-    image: cloudhost/frontend_production:latest
+    build: 
+      context: .
+      dockerfile: Dockerfile.staging
+    image: cloudhost/frontend_staging:latest
     labels:
       - 'traefik.enable=true'
       - 'traefik.backend=cloudhost-frontend'
       - 'traefik.docker.network=traefik'
-      - 'traefik.frontend.rule=Host:cloudhost.hsrw.eu'
+      - 'traefik.frontend.rule=Host:staging.cloudhost.hsrw.eu'
       - 'traefik.port=80'
     networks:
       - cloudhost-backend_app
