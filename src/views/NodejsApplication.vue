@@ -131,7 +131,7 @@ export default {
       `${process.env.VUE_APP_BACKEND_URL}/applications/${this.$route.params.id}`
     );
     this.application = application;
-    this.socket = io(`${process.env.VUE_APP_BACKEND_URL}`);
+    this.socket = io(`${process.env.VUE_APP_DOMAIN}`, { path: '/api/socket.io' });
   },
   beforeDestroy() {
     this.socket.destroy();

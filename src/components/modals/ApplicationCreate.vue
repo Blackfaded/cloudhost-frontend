@@ -118,7 +118,7 @@ export default {
     };
   },
   mounted() {
-    this.socket = io(`${process.env.VUE_APP_BACKEND_URL}`);
+    this.socket = io(`${process.env.VUE_APP_DOMAIN}`, { path: '/api/socket.io' });
   },
   computed: {
     username() {

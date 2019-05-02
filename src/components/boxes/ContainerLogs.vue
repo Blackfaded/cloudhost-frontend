@@ -36,7 +36,7 @@ export default {
     },
     connetSocket() {
       this.logs = '';
-      this.socket = io(`${process.env.VUE_APP_BACKEND_URL}/logs`);
+      this.socket = io(`${process.env.VUE_APP_DOMAIN}/logs`, { path: '/api/socket.io' });
       this.socket.emit('getLogs', {
         appName: this.application.appName,
         token: Cookies.get('jwt')
