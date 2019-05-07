@@ -1,6 +1,6 @@
 {
   "name": "cloudhost-frontend",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "preversion": "cross-env NPM_PACKAGE_VERSION=$npm_package_version node preversion.js && git add .",
