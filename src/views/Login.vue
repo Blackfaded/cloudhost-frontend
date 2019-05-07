@@ -53,18 +53,28 @@ export default {
   },
   methods: {
     ...mapActions(['setToken', 'setUser']),
+
+    // login function
     async login() {
       try {
+        // make request to API with credentials
         const {
           data: { token }
         } = await this.$axios.post(`${process.env.VUE_APP_BACKEND_URL}/auth`, {
           username: this.username,
           password: this.password
         });
+
+        // set token in vuex store
         this.setToken(token);
+
+        // get and set user in vuex store (see vuex)
         this.setUser();
+
+        // redirect to dashboard
         this.$router.push('/dashboard');
       } catch (error) {
+        // display toast if an error occurs
         if (error.response && error.response.data && error.response.data.message) {
           this.$snotify.error(error.response.data.message, error.response.data.error);
         }

@@ -44,14 +44,19 @@ export default {
     }
   },
   methods: {
+    // return color of label based und a boolean value
     booleanIconStyle(bool) {
       return {
         color: bool ? 'var(--success)' : 'var(--danger)'
       };
     },
+
+    // emit event to update user to the components parent
     updateUserData(user, key, value) {
       this.$emit('updateUserData', { user, key, value });
     },
+
+    // emit event to update users role to the components parent
     toggleRole(user, role, flag) {
       this.$emit('toggleRole', { user, role, flag });
     }

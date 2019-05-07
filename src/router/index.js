@@ -108,11 +108,13 @@ const router = new Router({
   ]
 });
 
+// gets executed before each route change
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
     if (!isLoggedIn()) {
+      // redirect to /auth when not logged in
       next({
         path: '/auth'
       });
@@ -120,11 +122,12 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else {
-    next(); // make sure to always call next()!
+    next(); // make sure to always call next()
   }
 });
 
 const { pathname } = window.location;
+// initial reroute when page gets loaded but user is logged in
 if (isLoggedIn() && (pathname === '/' || pathname === '/auth')) {
   router.push('/dashboard');
 }

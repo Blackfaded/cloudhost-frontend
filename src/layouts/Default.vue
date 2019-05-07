@@ -30,6 +30,7 @@ export default {
     HeaderNav
   },
   methods: {
+    // toggle Sidenav
     toggleSideNav() {
       this.isSidenavCollapsed = !this.isSidenavCollapsed;
     }

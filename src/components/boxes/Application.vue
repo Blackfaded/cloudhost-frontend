@@ -36,6 +36,7 @@ export default {
 
   methods: {},
   computed: {
+    // calculate application link
     applicationLink() {
       return `${process.env.VUE_APP_DOMAIN}/${this.application.mountPath}/`;
     }

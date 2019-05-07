@@ -68,6 +68,7 @@ export default {
     };
   },
   methods: {
+    // get database connection string to see if user has a db running
     async getDatabaseConnectionString() {
       try {
         const {
@@ -80,6 +81,8 @@ export default {
         }
       }
     },
+
+    // create user database
     async createDatabase() {
       this.creatingDatabase = true;
       const {
@@ -88,6 +91,8 @@ export default {
       this.creatingDatabase = false;
       this.mongoConnectionString = connectionString;
     },
+
+    // delete users database
     async deleteDatabase() {
       this.deletingDatabase = true;
       const {
@@ -96,6 +101,8 @@ export default {
       this.deletingDatabase = false;
       this.mongoConnectionString = connectionString;
     },
+
+    // display confirm toast when user wants to delete database
     deleteConfirm() {
       this.$snotify.confirm(
         "Be careful, this can't be undone. All data will be lost.",
@@ -121,6 +128,7 @@ export default {
     }
   },
   async mounted() {
+    // when components gets mounted get db string
     await this.getDatabaseConnectionString();
   }
 };

@@ -20,9 +20,6 @@ export default {
       default: false
     }
   },
-  data() {
-    return {};
-  },
   computed: {
     style() {
       return {
@@ -31,6 +28,7 @@ export default {
     }
   },
   methods: {
+    // emit click event to components parent
     click() {
       this.$emit('click');
     }

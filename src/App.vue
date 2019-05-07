@@ -14,12 +14,14 @@ export default {
   },
   mixins: [toggleTheme],
   computed: {
+    // check if layout should be applied or not
     layout() {
       const { layout } = this.$route.meta;
       return layout ? `${layout}-layout` : 'div';
     }
   },
   mounted() {
+    // when app gets started apply theme
     this.applyTheme();
   }
 };

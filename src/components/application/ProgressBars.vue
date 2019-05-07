@@ -62,26 +62,36 @@ export default {
     }
   },
   methods: {
+    // update Progressbar value
     downloadProgress({ progress }) {
       this.progressBars.pullingRepo.progress = progress;
     },
+
+    // update buildimage status to true
     startBuildImage() {
       // if downloadsize was to small the progress wint get tracked
       // so set it manually to 100%
       this.progressBars.pullingRepo.progress = 100;
       this.progressBars.buildingImage.started = true;
     },
+
+    // update buildimage status to false
     finishBuildImage() {
       this.progressBars.buildingImage.finished = true;
     },
+
+    // update startapplication status to true
     beginStartApplication() {
       this.progressBars.startingApp.started = true;
     },
+
+    // update finishapplication status to true
     finishStartApplication() {
       this.progressBars.startingApp.finished = true;
     }
   },
   mounted() {
+    // set socket handlers when component is mounted
     this.socket.on('repoDownloadProgress', this.downloadProgress);
     this.socket.on('startBuildImage', this.startBuildImage);
     this.socket.on('finishBuildImage', this.finishBuildImage);

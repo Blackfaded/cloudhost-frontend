@@ -8,9 +8,11 @@
     "build:staging": "vue-cli-service build --mode staging",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "docker:prod": "docker-compose -f docker-compose.prod.yml up",
+    "docker:prod": "docker-compose -f docker-compose.prod.yml up -d",
+    "docker:staging": "docker-compose -f docker-compose.staging.yml up -d",
     "docker:dev": "docker-compose -f docker-compose.dev.yml up",
     "docker:rebuild:dev": "docker-compose -f docker-compose.dev.yml build --no-cache --force-rm",
+    "docker:rebuild:staging": "docker-compose -f docker-compose.staging.yml build --no-cache --force-rm",
     "docker:rebuild:prod": "docker-compose -f docker-compose.prod.yml build --no-cache --force-rm"
   },
   "lint-staged": {

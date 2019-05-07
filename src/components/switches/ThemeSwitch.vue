@@ -18,20 +18,22 @@
 <script>
 import { mapActions } from 'vuex';
 import { ToggleButton } from 'vue-js-toggle-button';
-import toggleTheme from '@/mixins/applyTheme';
+import applyTheme from '@/mixins/applyTheme';
 
 export default {
   components: {
     ToggleButton
   },
-  mixins: [toggleTheme],
+  mixins: [applyTheme],
   computed: {
     theme: {
       get() {
         return this.$store.state.theme.bright;
       },
       set() {
+        // toggle Theme in Store
         this.toggleTheme();
+        // toggle css variables
         this.applyTheme();
       }
     }

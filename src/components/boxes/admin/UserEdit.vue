@@ -69,6 +69,7 @@ export default {
     }
   },
   methods: {
+    // format the date string
     formatDate(date) {
       return `${new Date(date).toDateString()} - ${new Date(date).toTimeString()}`;
     }

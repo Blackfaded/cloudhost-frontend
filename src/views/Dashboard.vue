@@ -46,13 +46,17 @@ export default {
     };
   },
   methods: {
+    // get database connection string to check if db is available
     async getDatabaseConnectionString() {
       try {
         const {
           data: { connectionString }
         } = await this.$axios.get('/database');
+
+        // set connectionstring in component
         this.mongoConnectionString = connectionString;
       } catch (error) {
+        // display toast if an error occurs
         if (error.response && error.response.data && error.response.data.message) {
           this.$snotify.error(error.response.data.message, error.response.data.error);
         }
@@ -60,13 +64,17 @@ export default {
     }
   },
   computed: {
+    // filter all running applications
     runningApplications() {
       return this.applications.filter(application => application.running);
     }
   },
   async mounted() {
+    // get all applications when component is mounted
     const { data: applications } = await this.$axios.get('/applications');
     this.applications = applications;
+
+    // get db connection string when component is mounted
     await this.getDatabaseConnectionString();
   }
 };

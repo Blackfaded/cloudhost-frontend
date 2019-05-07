@@ -41,11 +41,13 @@ export default {
     };
   },
   methods: {
+    // toggle application status (running)
     async change({ value }) {
       const oldValue = !value;
       this.running = value;
       this.pending = true;
       try {
+        // change status in backend
         await this.$axios.post(
           `${process.env.VUE_APP_BACKEND_URL}/applications/${this.application.appName}/${
             value ? 'start' : 'stop'

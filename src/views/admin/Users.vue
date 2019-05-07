@@ -35,6 +35,7 @@ export default {
     };
   },
   methods: {
+    // update userslist when an edited user is send back from api
     replaceUserinList(updatedUser) {
       this.users = this.users.map(user => {
         if (updatedUser.email === user.email) {
@@ -43,28 +44,37 @@ export default {
         return user;
       });
     },
+
+    // patch userdata in backend
     async updateUserData({ user, key, value }) {
       try {
         const { data: updatedUser } = await this.$axios.patch(`users/${user}`, {
           [key]: value
         });
+        // after request update userlist
         this.replaceUserinList(updatedUser);
       } catch (error) {
+        // if en arror occurs display toast
         if (error.response && error.response.data && error.response.data.message) {
           this.$snotify.error(error.response.data.message, error.response.data.error);
         }
       }
     },
-    toggleRole({ user, role, flag }) {
-      if (!flag) {
-        this.deleteRole(user, role);
-      } else {
+
+    // helperfunction for toggling userRole
+    toggleRole({ user, role, value }) {
+      if (value) {
         this.addRole(user, role);
+      } else {
+        this.deleteRole(user, role);
       }
     },
+
+    // delete userrole in backend
     async deleteRole(user, role) {
       try {
         const { data: updatedUser } = await this.$axios.delete(`users/${user}/roles/${role}`);
+        // after request update userlist
         this.replaceUserinList(updatedUser);
       } catch (error) {
         if (error.response && error.response.data && error.response.data.message) {
@@ -72,14 +82,19 @@ export default {
         }
       }
     },
+
+    // add userrole in backend
     async addRole(user, role) {
       const { data: updatedUser } = await this.$axios.post(`users/${user}/roles`, {
         role
       });
+      // after request update userlist
       this.replaceUserinList(updatedUser);
     }
   },
+
   computed: {
+    // prepare users for displaying
     preparedUsers() {
       return this.users.map(user => ({
         email: user.email,
@@ -88,7 +103,9 @@ export default {
       }));
     }
   },
+
   async mounted() {
+    // get all users when component gets mounted
     const { data } = await this.$axios.get('users');
     this.users = data;
   }

@@ -17,7 +17,5 @@ services:
 
 
 networks:
-  cloudhost-backend_app:
-    external: true
   traefik:
     external: true

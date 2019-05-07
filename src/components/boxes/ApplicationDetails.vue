@@ -70,9 +70,12 @@ export default {
     }
   },
   computed: {
+    // calculate application link
     applicationLink() {
       return `${process.env.VUE_APP_DOMAIN}/${this.application.mountPath}/`;
     },
+
+    // format date
     formattedDate() {
       return `${new Date(this.application.createdAt).toLocaleDateString()} - ${new Date(
         this.application.createdAt

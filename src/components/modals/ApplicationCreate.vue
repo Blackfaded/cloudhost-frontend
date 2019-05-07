@@ -118,31 +118,42 @@ export default {
     };
   },
   mounted() {
+    // when component gets mounted connect to socket
     this.socket = io(`${process.env.VUE_APP_DOMAIN}`, { path: '/api/socket.io' });
   },
   computed: {
+    // calculate username from users email
     username() {
       return this.$store.state.user.email.split('@')[0];
     },
+
+    // calculate mountpath prefix
     mountPathPrefix() {
       return `${process.env.VUE_APP_DOMAIN}/${this.username}/`;
     },
+
+    // check if creation button is disabled
     isCreateApplicationButtonDisabled() {
       return !this.selectedRepository || !this.selectedBranch || !this.selectedRunScript;
     }
   },
   methods: {
+    // reset progress of modal
     reset() {
       this.runScripts = [];
       this.selectedBranch = null;
       this.selectedRunScript = null;
     },
+
+    // check in backend if the application already exists
     async doesApplicationAlreadyExist() {
       const { data: applications } = await this.$axios.get(
         `${process.env.VUE_APP_BACKEND_URL}/applications/${this.appName}`
       );
       return !!applications;
     },
+
+    // display error toast when application exists
     async checkApplicationCreate() {
       if (await this.doesApplicationAlreadyExist()) {
         this.$snotify.error(
@@ -154,12 +165,15 @@ export default {
           }
         );
       } else {
+        // if not start appication creation process
         this.createApplicationProcess();
       }
     },
     async createApplicationProcess() {
       try {
         this.isApplicationCreating = true;
+
+        // call mixin function for application creation (in folder mixins)
         await this.createApplication({
           repositoryName: this.selectedRepository.path,
           repositoryId: this.selectedRepository.id,
@@ -169,32 +183,45 @@ export default {
           buildScript: this.selectedBuildScript,
           socketId: this.socket.id
         });
+
+        // close modal when done
         this.close();
       } catch (error) {
+        // if en arror occurs display that in a toast
         this.isApplicationCreating = false;
         if (error.response && error.response.data && error.response.data.message) {
           this.$snotify.error(error.response.data.message, error.response.data.error);
         }
       }
     },
+
+    // handler for a repositorychange in the form
     async repositoryChange(repo) {
       this.loadingRequest = true;
       this.selectedRepository = repo;
       this.appName = this.selectedRepository.path;
+
+      // get repository branches
       const { data } = await this.$axios.get(
         `${process.env.VUE_APP_BACKEND_URL}/repositories/${this.selectedRepository.id}/branches`
       );
       this.branches = data;
+
+      // reset data until that point
       this.runScripts = [];
       this.needsBuildScript = false;
       this.selectedBuildScript = null;
       this.loadingRequest = false;
     },
+
+    // handler for branch change
     async branchChange(branch) {
       this.loadingRequest = true;
       this.selectedBranch = branch;
       this.runScripts = [];
       this.selectedRunScript = null;
+
+      // get branches runscripts
       const { data } = await this.$axios.get(
         `${process.env.VUE_APP_BACKEND_URL}/repositories/${this.selectedRepository.id}/branches/${
           this.selectedBranch

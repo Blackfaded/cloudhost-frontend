@@ -56,6 +56,7 @@ export default {
     ProgressModal
   },
   methods: {
+    // confirm toast when recreating an application
     async checkApplicationCreate() {
       this.$snotify.confirm(
         'Your old application will be deleted and your new one will be deployed.',
@@ -79,6 +80,7 @@ export default {
       );
     },
 
+    // application creation
     async createApplicationProcess() {
       this.isApplicationCreating = true;
       await this.createApplication({
@@ -92,6 +94,8 @@ export default {
       });
       this.isApplicationCreating = false;
     },
+
+    // display toast when app gets deleted
     applicationConfirm() {
       this.$snotify.confirm("Be careful, this can't be undone", 'Delete application?', {
         closeOnClick: false,
@@ -111,12 +115,16 @@ export default {
         ]
       });
     },
+
+    // delete application
     async deleteApplication() {
       try {
         this.isApplicationDeleting = true;
         await this.$axios.delete(
           `${process.env.VUE_APP_BACKEND_URL}/applications/${this.$route.params.id}`
         );
+
+        // redirect to /node
         this.$router.push('/node');
       } catch (error) {
         this.isApplicationDeleting = false;
@@ -127,13 +135,16 @@ export default {
     }
   },
   async mounted() {
+    // get application when component gets mounted
     const { data: application } = await this.$axios.get(
       `${process.env.VUE_APP_BACKEND_URL}/applications/${this.$route.params.id}`
     );
     this.application = application;
+    // connect to socket.io
     this.socket = io(`${process.env.VUE_APP_DOMAIN}`, { path: '/api/socket.io' });
   },
   beforeDestroy() {
+    // destroy socket when component gets destroyed
     this.socket.destroy();
   }
 };

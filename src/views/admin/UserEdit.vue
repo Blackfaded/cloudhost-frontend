@@ -18,17 +18,20 @@ export default {
     };
   },
   computed: {
+    // get username from routeparams (users/:id)
     userName() {
       return this.$route.params.id;
     }
   },
   methods: {
     async update(updateData) {
+      // patch userdata in backend
       const { data: user } = await this.$axios.patch(`/users/${this.userName}`, updateData);
       this.user = user;
     }
   },
   async mounted() {
+    // get userdata when components is mounted
     const { data: user } = await this.$axios.get(`/users/${this.userName}`);
     this.user = user;
   }

@@ -14,6 +14,7 @@ export default {
     maxHeight: Number
   },
   computed: {
+    // calculate style based on given slots
     style() {
       return {
         'border-bottom': this.$slots.footer ? '1px solid var(--devider-color)' : '',

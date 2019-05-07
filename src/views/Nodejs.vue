@@ -43,25 +43,31 @@ export default {
     ApplicationCreateModal
   },
   methods: {
+    // replace new application in applicationlist after app got created
     addApplication(newApp) {
       this.applications = this.applications.filter(app => app.mountPath !== newApp.mountPath);
       this.applications.push(newApp);
     }
   },
   async mounted() {
+    // get users apps
     const { data: applications } = await this.$axios.get(
       `${process.env.VUE_APP_BACKEND_URL}/applications`
     );
     this.applications = applications;
+
+    // get users projects from github (proxied via api server)
     const { data } = await this.$axios.get(
       `${process.env.VUE_APP_BACKEND_URL}/users/${this.$store.state.user.email}/projects`
     );
     this.repositories = data;
     this.loadingRepositories = false;
 
+    // add application to list when it got created
     EventBus.$on('applicationCreated', this.addApplication);
   },
   beforeDestroy() {
+    // remove eventlistener when component gets destroyed
     EventBus.$off('applicationCreated');
   }
 };

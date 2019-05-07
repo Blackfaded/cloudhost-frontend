@@ -37,6 +37,8 @@ export default {
   },
   methods: {
     ...mapActions(['destroyToken']),
+
+    // destroy User token on logout and redirect to /
     logout() {
       this.destroyToken();
       this.$router.push('/');
