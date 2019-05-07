@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "preversion": "cross-env NPM_PACKAGE_VERSION=$npm_package_version node preversion.js && git add .",
+    "postversion": "git push && git push --tags",
     "serve": "npm rebuild node-sass && vue-cli-service serve",
     "build:production": "vue-cli-service build",
     "build:staging": "vue-cli-service build --mode staging",
@@ -36,6 +38,7 @@
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.11",
     "js-cookie": "^2.2.0",
+    "replace-in-file": "^4.0.0",
     "socket.io-client": "^2.2.0",
     "uuid": "^3.3.2",
     "vue": "^2.5.21",

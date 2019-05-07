@@ -4,7 +4,7 @@ services:
     build:
       context: .
       target: modules
-    image: cloudhost/frontend_development:latest
+    image: cloudhost/frontend_development:0.0.1
     env_file:
       - .env.development
     labels:
