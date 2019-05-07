@@ -2,7 +2,7 @@ version: '3.5'
 services:
   frontend:
     build: .
-    image: cloudhost/frontend_production:0.1.1
+    image: cloudhost/frontend_production:1.0.0
     labels:
       - 'traefik.enable=true'
       - 'traefik.backend=cloudhost-frontend'
