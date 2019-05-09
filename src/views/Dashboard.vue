@@ -70,12 +70,19 @@ export default {
     }
   },
   async mounted() {
-    // get all applications when component is mounted
-    const { data: applications } = await this.$axios.get('/applications');
-    this.applications = applications;
+    try {
+      // get all applications when component is mounted
+      const { data: applications } = await this.$axios.get('/applications');
+      this.applications = applications;
 
-    // get db connection string when component is mounted
-    await this.getDatabaseConnectionString();
+      // get db connection string when component is mounted
+      await this.getDatabaseConnectionString();
+    } catch (error) {
+      // display toast if an error occurs
+      if (error.response && error.response.data && error.response.data.message) {
+        this.$snotify.error(error.response.data.message, error.response.data.error);
+      }
+    }
   }
 };
 </script>

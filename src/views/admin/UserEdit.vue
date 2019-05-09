@@ -25,15 +25,27 @@ export default {
   },
   methods: {
     async update(updateData) {
-      // patch userdata in backend
-      const { data: user } = await this.$axios.patch(`/users/${this.userName}`, updateData);
-      this.user = user;
+      try {
+        // patch userdata in backend
+        const { data: user } = await this.$axios.patch(`/users/${this.userName}`, updateData);
+        this.user = user;
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          this.$snotify.error(error.response.data.message, error.response.data.error);
+        }
+      }
     }
   },
   async mounted() {
-    // get userdata when components is mounted
-    const { data: user } = await this.$axios.get(`/users/${this.userName}`);
-    this.user = user;
+    try {
+      // get userdata when components is mounted
+      const { data: user } = await this.$axios.get(`/users/${this.userName}`);
+      this.user = user;
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        this.$snotify.error(error.response.data.message, error.response.data.error);
+      }
+    }
   }
 };
 </script>

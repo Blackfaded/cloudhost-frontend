@@ -50,18 +50,21 @@ export default {
     }
   },
   async mounted() {
-    // get users apps
-    const { data: applications } = await this.$axios.get(
-      `${process.env.VUE_APP_BACKEND_URL}/applications`
-    );
-    this.applications = applications;
+    try {
+      // get users apps
+      const { data: applications } = await this.$axios.get('/applications');
+      this.applications = applications;
 
-    // get users projects from github (proxied via api server)
-    const { data } = await this.$axios.get(
-      `${process.env.VUE_APP_BACKEND_URL}/users/${this.$store.state.user.email}/projects`
-    );
-    this.repositories = data;
-    this.loadingRepositories = false;
+      // get users projects from github (proxied via api server)
+      const { data } = await this.$axios.get(`/users/${this.$store.state.user.email}/projects`);
+      this.repositories = data;
+      this.loadingRepositories = false;
+    } catch (error) {
+      // display toast if an error occurs
+      if (error.response && error.response.data && error.response.data.message) {
+        this.$snotify.error(error.response.data.message, error.response.data.error);
+      }
+    }
 
     // add application to list when it got created
     EventBus.$on('applicationCreated', this.addApplication);

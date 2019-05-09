@@ -73,7 +73,7 @@ export default {
       try {
         const {
           data: { connectionString }
-        } = await this.$axios.get(`${process.env.VUE_APP_BACKEND_URL}/database`);
+        } = await this.$axios.get('/database');
         this.mongoConnectionString = connectionString;
       } catch (error) {
         if (error.response && error.response.data && error.response.data.message) {
@@ -84,22 +84,36 @@ export default {
 
     // create user database
     async createDatabase() {
-      this.creatingDatabase = true;
-      const {
-        data: { connectionString }
-      } = await this.$axios.post(`${process.env.VUE_APP_BACKEND_URL}/database`);
-      this.creatingDatabase = false;
-      this.mongoConnectionString = connectionString;
+      try {
+        this.creatingDatabase = true;
+        const {
+          data: { connectionString }
+        } = await this.$axios.post('/database');
+        this.mongoConnectionString = connectionString;
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          this.$snotify.error(error.response.data.message, error.response.data.error);
+        }
+      } finally {
+        this.creatingDatabase = false;
+      }
     },
 
     // delete users database
     async deleteDatabase() {
-      this.deletingDatabase = true;
-      const {
-        data: { connectionString }
-      } = await this.$axios.delete(`${process.env.VUE_APP_BACKEND_URL}/database`);
-      this.deletingDatabase = false;
-      this.mongoConnectionString = connectionString;
+      try {
+        this.deletingDatabase = true;
+        const {
+          data: { connectionString }
+        } = await this.$axios.delete('/database');
+        this.mongoConnectionString = connectionString;
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          this.$snotify.error(error.response.data.message, error.response.data.error);
+        }
+      } finally {
+        this.deletingDatabase = false;
+      }
     },
 
     // display confirm toast when user wants to delete database

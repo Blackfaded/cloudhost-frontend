@@ -120,9 +120,7 @@ export default {
     async deleteApplication() {
       try {
         this.isApplicationDeleting = true;
-        await this.$axios.delete(
-          `${process.env.VUE_APP_BACKEND_URL}/applications/${this.$route.params.id}`
-        );
+        await this.$axios.delete(`/applications/${this.$route.params.id}`);
 
         // redirect to /node
         this.$router.push('/node');
@@ -135,13 +133,17 @@ export default {
     }
   },
   async mounted() {
-    // get application when component gets mounted
-    const { data: application } = await this.$axios.get(
-      `${process.env.VUE_APP_BACKEND_URL}/applications/${this.$route.params.id}`
-    );
-    this.application = application;
-    // connect to socket.io
-    this.socket = io(`${process.env.VUE_APP_DOMAIN}`, { path: '/api/socket.io' });
+    try {
+      // get application when component gets mounted
+      const { data: application } = await this.$axios.get(`/applications/${this.$route.params.id}`);
+      this.application = application;
+      // connect to socket.io
+      this.socket = io(`${process.env.VUE_APP_DOMAIN}`, { path: '/api/socket.io' });
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        this.$snotify.error(error.response.data.message, error.response.data.error);
+      }
+    }
   },
   beforeDestroy() {
     // destroy socket when component gets destroyed

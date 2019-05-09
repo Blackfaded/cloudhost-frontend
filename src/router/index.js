@@ -1,17 +1,17 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Auth from '../views/Login';
-import Dashboard from '../views/Dashboard';
-import Mongo from '../views/Mongo';
-import Nodejs from '../views/Nodejs';
-import NodejsApplication from '../views/NodejsApplication';
-import Help from '../views/Help';
-import Admin from '../views/admin';
-import AdminUsers from '../views/admin/Users';
-import AdminUserEdit from '../views/admin/UserEdit';
-import FourOFour from '../views/FourOFour';
-
 import { isLoggedIn } from '@/helpers/auth';
+
+const Dashboard = () => import('../views/Dashboard');
+const Mongo = () => import('../views/Mongo');
+const Nodejs = () => import('../views/Nodejs');
+const NodejsApplication = () => import('../views/NodejsApplication');
+const Help = () => import('../views/Help');
+const Admin = () => import('../views/admin');
+const AdminUsers = () => import('../views/admin/Users');
+const AdminUserEdit = () => import('../views/admin/UserEdit');
+const FourOFour = () => import('../views/FourOFour');
 
 Vue.use(Router);
 

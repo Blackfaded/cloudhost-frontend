@@ -60,7 +60,7 @@ export default {
         // make request to API with credentials
         const {
           data: { token }
-        } = await this.$axios.post(`${process.env.VUE_APP_BACKEND_URL}/auth`, {
+        } = await this.$axios.post('/auth', {
           username: this.username,
           password: this.password
         });

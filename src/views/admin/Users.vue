@@ -73,7 +73,7 @@ export default {
     // delete userrole in backend
     async deleteRole(user, role) {
       try {
-        const { data: updatedUser } = await this.$axios.delete(`users/${user}/roles/${role}`);
+        const { data: updatedUser } = await this.$axios.delete(`/users/${user}/roles/${role}`);
         // after request update userlist
         this.replaceUserinList(updatedUser);
       } catch (error) {
@@ -85,7 +85,7 @@ export default {
 
     // add userrole in backend
     async addRole(user, role) {
-      const { data: updatedUser } = await this.$axios.post(`users/${user}/roles`, {
+      const { data: updatedUser } = await this.$axios.post(`/users/${user}/roles`, {
         role
       });
       // after request update userlist
@@ -105,9 +105,15 @@ export default {
   },
 
   async mounted() {
-    // get all users when component gets mounted
-    const { data } = await this.$axios.get('users');
-    this.users = data;
+    try {
+      // get all users when component gets mounted
+      const { data } = await this.$axios.get('/users');
+      this.users = data;
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        this.$snotify.error(error.response.data.message, error.response.data.error);
+      }
+    }
   }
 };
 </script>

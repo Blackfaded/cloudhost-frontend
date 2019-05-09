@@ -1,7 +1,6 @@
 <template>
   <base-modal @close="close" maskdisabled class="applicationDetails">
     <h3 slot="header">Create Application</h3>
-
     <progress-bars :socket="socket" slot="body"></progress-bars>
   </base-modal>
 </template>
