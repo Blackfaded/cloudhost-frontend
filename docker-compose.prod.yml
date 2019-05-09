@@ -10,12 +10,9 @@ services:
       - 'traefik.frontend.rule=Host:cloudhost.hsrw.eu'
       - 'traefik.port=80'
     networks:
-      - cloudhost-backend_app
       - traefik
 
 
 networks:
-  cloudhost-backend_app:
-    external: true
   traefik:
     external: true

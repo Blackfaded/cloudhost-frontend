@@ -22,11 +22,8 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
     networks:
-      - cloudhost-backend_app
       - traefik
 
 networks:
-  cloudhost-backend_app:
-    external: true
   traefik:
     external: true

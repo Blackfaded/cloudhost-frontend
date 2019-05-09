@@ -12,7 +12,6 @@ services:
       - 'traefik.frontend.rule=Host:staging.cloudhost.hsrw.eu'
       - 'traefik.port=80'
     networks:
-      - cloudhost-backend_app
       - traefik
 
 
