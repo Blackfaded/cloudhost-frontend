@@ -57,8 +57,8 @@ export default {
     },
 
     // emit event to update users role to the components parent
-    toggleRole(user, role, flag) {
-      this.$emit('toggleRole', { user, role, flag });
+    toggleRole(user, role, value) {
+      this.$emit('toggleRole', { user, role, value });
     }
   }
 };

@@ -85,11 +85,17 @@ export default {
 
     // add userrole in backend
     async addRole(user, role) {
-      const { data: updatedUser } = await this.$axios.post(`/users/${user}/roles`, {
-        role
-      });
-      // after request update userlist
-      this.replaceUserinList(updatedUser);
+      try {
+        const { data: updatedUser } = await this.$axios.post(`/users/${user}/roles`, {
+          role
+        });
+        // after request update userlist
+        this.replaceUserinList(updatedUser);
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          this.$snotify.error(error.response.data.message, error.response.data.error);
+        }
+      }
     }
   },
 
