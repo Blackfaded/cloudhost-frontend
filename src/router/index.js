@@ -2,8 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Auth from '../views/Login';
 import { isLoggedIn } from '@/helpers/auth';
+import Dashboard from '../views/Dashboard';
 
-const Dashboard = () => import('../views/Dashboard');
 const Mongo = () => import('../views/Mongo');
 const Nodejs = () => import('../views/Nodejs');
 const NodejsApplication = () => import('../views/NodejsApplication');
