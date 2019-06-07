@@ -7,8 +7,8 @@
         </transition>
       </router-link>
       <button class="toggleSideNav" @click="toggleSideNav">
-        <font-awesome-icon v-if="collapsed" icon="list-ul" />
-        <font-awesome-icon v-else icon="ellipsis-v" />
+        <font-awesome-icon v-if="collapsed" icon="arrow-right" />
+        <font-awesome-icon v-else icon="arrow-left" />
       </button>
       <span class="space"></span>
 

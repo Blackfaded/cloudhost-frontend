@@ -4,14 +4,14 @@
     v-model="theme"
     labels
     :color="{
-      checked: '#333333',
-      unchecked: '#dddddd'
+      checked: '#dddddd',
+      unchecked: '#333333'
     }"
     :width="100"
     :height="30"
   >
-    <font-awesome-icon slot="checked" icon="moon" class="theme theme--dark" />
-    <font-awesome-icon slot="unchecked" icon="sun" class="theme theme--bright" />
+    <font-awesome-icon slot="unchecked" icon="moon" class="theme theme--dark" />
+    <font-awesome-icon slot="checked" icon="sun" class="theme theme--bright" />
   </toggle-button>
 </template>
 

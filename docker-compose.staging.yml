@@ -5,6 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile.staging
     image: cloudhost/frontend_staging:1.0.0
+    restart: always
     labels:
       - 'traefik.enable=true'
       - 'traefik.backend=cloudhost-frontend'

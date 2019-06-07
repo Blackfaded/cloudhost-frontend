@@ -9,15 +9,20 @@
     <h3>Creating your database</h3>
     <p>
       If your application relies on a database you first must create one under the
-      <router-link to="/mongo">mongoDB</router-link> tab in the navigation. After creating follow
-      the example to setup your database in your project.
+      <router-link to="/mongo">mongoDB</router-link>
+      tab in the navigation. After creating follow the example to setup your database in your
+      project.
+    </p>
+    <p>
+      You only have one database instance, but you can create as many collections as you want to use
+      for multiple projects.
     </p>
     <hr />
     <h3>Creating an application</h3>
     <div>
       You can create as many applications as you want under the
-      <router-link to="/node">Node.js</router-link> tab in the navigation. To create one follow
-      these steps:
+      <router-link to="/node">Node.js</router-link>tab in the navigation. To create one follow these
+      steps:
       <ul>
         <li>click on the <code>new</code> button</li>
         <li>
@@ -45,7 +50,7 @@
     <hr />
     <p>Example project which hosts your build files from a <code>dist</code> folder:</p>
     <p>
-      Here your app gets build and packed into a <code>dist</code> folder. Your server then serves
+      Here your app was built and packed into a <code>dist</code> folder. Your server then serves
       the bundled app from that <code>dist</code> folder.
     </p>
 
@@ -65,9 +70,7 @@
 
     <p>
       A complete example application can be found at
-      <a target="_blank" href="https://git.hsrw.eu/rene.heinen/angular-example-app">
-        git.hsrw.eu
-      </a>
+      <a target="_blank" href="https://git.hsrw.eu/rene.heinen/angular-example-app">git.hsrw.eu</a>
     </p>
     <p>
       Take a look at the <code>outputPath</code> in the <code>angular.json</code> and the

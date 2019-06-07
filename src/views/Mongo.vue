@@ -6,8 +6,8 @@
         needed to connect to your database.
       </div>
 
-      <base-button v-if="!creatingDatabase" @click="createDatabase"> Create Database </base-button>
-      <base-button v-else disabled> Creating Database... </base-button>
+      <base-button v-if="!creatingDatabase" @click="createDatabase">Create Database</base-button>
+      <base-button v-else disabled>Creating Database...</base-button>
     </template>
 
     <template v-else>
@@ -22,6 +22,10 @@
           <p>
             In this example you would connect to a collection named <code>test</code>. To create a
             new collection just name it after the last <code>/</code>.
+          </p>
+          <p>
+            You only have one database instance, but you can create as many collections in it to use
+            for multiple projects.
           </p>
         </template>
 
