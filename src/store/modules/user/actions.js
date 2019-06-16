@@ -1,18 +1,16 @@
 import * as Cookies from 'js-cookie';
 import { SET_USER, DESTROY_USER } from './mutationTypes'; //eslint-disable-line
-import axios from '@/config/axios';
-
-const domain = process.env.VUE_APP_DOMAIN.split(/^https?:\/\//)[1];
+import axios from '../../../config/axios';
 
 export default {
   // save jwt in cookie
   setToken(context, data) {
-    Cookies.set('jwt', data, { domain });
+    Cookies.set('jwt', data);
   },
 
   // destroy jwt cookie
   destroyToken() {
-    Cookies.remove('jwt', { domain });
+    Cookies.remove('jwt');
   },
 
   // get userdata
