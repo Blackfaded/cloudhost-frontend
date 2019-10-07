@@ -20,11 +20,11 @@
           <h5>Example:</h5>
           <code>{{ `mongodb://${mongoConnectionString}/test` }}</code> <br />
           <p>
-            In this example you would connect to a collection named <code>test</code>. To create a
-            new collection just name it after the last <code>/</code>.
+            In this example you would connect to a database named <code>test</code>. To create a
+            new database just name it after the last <code>/</code>.
           </p>
           <p>
-            You only have one database instance, but you can create as many collections in it to use
+            You only have one mongoDB server, but you can create multiple databases in it to use
             for multiple projects.
           </p>
         </template>
